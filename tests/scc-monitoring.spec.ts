@@ -2,11 +2,9 @@ import { test } from '@playwright/test';
 import { Actor } from '../screenplay/actor';
 import { BrowseTheWeb } from '../screenplay/abilities/browseTheWeb';
 import { FormVinDecode } from '../tasks/formVinDecode';
-import { decryptMongoUrl } from '../tasks/vingenerate';
 import { EUVinGenerate } from '../tasks/euVinGenerate';
 
-// Base URL securely loaded from .env
-const ENCRYPTED_BASE_URL = process.env.ENCRYPTED_BASE_URL || '';
+const BASE_URL = process.env.BASE_URL || 'https://smartcarcheck.uk/';
 
 test.describe('SCC Monitoring Flow', () => {
   
@@ -16,10 +14,8 @@ test.describe('SCC Monitoring Flow', () => {
 
     const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
 
-    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL) || 'https://smartcarcheck.uk/';
-    
     // Browse to base URL
-    await page.goto(baseUrl); 
+    await page.goto(BASE_URL); 
 
     // 3. Execute the VIN Decode Task for the US region
     await user.attemptsTo(
@@ -33,10 +29,9 @@ test.describe('SCC Monitoring Flow', () => {
   test('Case 2: EU VIn decode flow', async ({ page }) => {
     test.setTimeout(60000);
     const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
-    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL) || 'https://smartcarcheck.uk/';
     
     // Browse to base URL
-    await page.goto(baseUrl);
+    await page.goto(BASE_URL);
 
     // Generate dynamic EU VIN
     const euVin = EUVinGenerate.generate();

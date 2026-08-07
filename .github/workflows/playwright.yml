@@ -38,8 +38,8 @@ jobs:
       continue-on-error: true
       run: npx playwright test --project="${{ matrix.project }}"
       env:
-        ENCRYPTED_MONGO_URI: ${{ secrets.ENCRYPTED_MONGO_URI }}
-        ENCRYPTED_BASE_URL: ${{ secrets.ENCRYPTED_BASE_URL }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        BASE_URL: ${{ secrets.BASE_URL }}
         SLOW_NETWORK: 'false'
 
     - uses: actions/upload-artifact@v4
