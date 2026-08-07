@@ -4,6 +4,7 @@ import { BrowseTheWeb } from '../screenplay/abilities/browseTheWeb';
 import { FormVinDecode } from '../tasks/formVinDecode';
 import { EUVinGenerate } from '../tasks/euVinGenerate';
 import { FormRegDecode } from '../tasks/formRegDecode';
+import { PreviewToCheckout } from '../tasks/previewToCheckout';
 
 const BASE_URL = process.env.BASE_URL || 'https://smartcarcheck.uk/';
 
@@ -70,7 +71,23 @@ test.describe('SCC Monitoring Flow', () => {
 
     // Execute the REG Decode Task
     await user.attemptsTo(
-      FormRegDecode.withReg(randomReg)
+      FormRegDecode.withReg(randomReg),
+      PreviewToCheckout.initiate()
+    );
+  });
+
+  test('Case 4: VIN Decode to Checkout Navigation', async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'Skipping Case 4: This case is configured to only run on Desktop Chrome.');
+    test.setTimeout(90000); // Give it enough time to run the full E2E flow
+    const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
+    
+    // Browse to base URL (domcontentloaded is much faster than full load)
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+
+    // Execute the VIN Decode Task (US fallback) and then proceed to Checkout
+    await user.attemptsTo(
+      FormVinDecode.forRegion('US'),
+      PreviewToCheckout.initiate()
     );
   });
 
