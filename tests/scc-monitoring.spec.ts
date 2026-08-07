@@ -16,8 +16,10 @@ test.describe('SCC Monitoring Flow', () => {
 
     const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
 
-    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL);
-    await page.goto(baseUrl as string); 
+    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL) || 'https://smartcarcheck.uk/';
+    
+    // Browse to base URL
+    await page.goto(baseUrl); 
 
     // 3. Execute the VIN Decode Task for the US region
     await user.attemptsTo(
@@ -31,10 +33,10 @@ test.describe('SCC Monitoring Flow', () => {
   test('Case 2: EU VIn decode flow', async ({ page }) => {
     test.setTimeout(60000);
     const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
-    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL);
+    const baseUrl = decryptMongoUrl(ENCRYPTED_BASE_URL) || 'https://smartcarcheck.uk/';
     
     // Browse to base URL
-    await page.goto(baseUrl as string);
+    await page.goto(baseUrl);
 
     // Generate dynamic EU VIN
     const euVin = EUVinGenerate.generate();
