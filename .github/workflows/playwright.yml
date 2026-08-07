@@ -1,0 +1,95 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Optionally run on a schedule (e.g., every day at midnight)
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, "Mobile Safari"]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps ${{ matrix.project == 'chromium' && 'chromium' || 'webkit' }}
+      
+    - name: Run Playwright tests
+      continue-on-error: true
+      run: npx playwright test --project="${{ matrix.project }}"
+      env:
+        ENCRYPTED_MONGO_URI: ${{ secrets.ENCRYPTED_MONGO_URI }}
+        ENCRYPTED_BASE_URL: ${{ secrets.ENCRYPTED_BASE_URL }}
+        SLOW_NETWORK: 'false'
+
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: blob-report-${{ matrix.project }}
+        path: blob-report/
+        retention-days: 30
+
+  deploy-report:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-report-*
+          merge-multiple: true
+          path: all-blob-reports
+          
+      - name: Download all blob reports (correct pattern)
+        uses: actions/download-artifact@v4
+        with:
+          pattern: blob-report-*
+          merge-multiple: true
+          path: all-blob-reports
+
+      - name: Merge Reports
+        run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
+
+      - name: Run Slack Notifier
+        if: always()
+        run: node slack-notify.js
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_SERVER: ${{ github.server_url }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_RUN: ${{ github.run_id }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_EVENT: ${{ github.event_name }}
+          BASE_URL: 'https://smartcarcheck.uk'
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./playwright-report
+
+

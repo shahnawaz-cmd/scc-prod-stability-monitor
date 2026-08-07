@@ -1,0 +1,12 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/all-blob-reports/
+/playwright/.cache/
+/playwright/.auth/
+results.json
+/gh-pages/
+.env

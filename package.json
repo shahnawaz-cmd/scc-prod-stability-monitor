@@ -1,0 +1,19 @@
+{
+  "name": "scc-monitoring-flow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/mongodb": "^4.0.6",
+    "@types/node": "^26.1.2"
+  },
+  "dependencies": {
+    "axios": "^1.19.0",
+    "dotenv": "^17.4.2",
+    "mongodb": "^7.5.0"
+  }
+}
