@@ -5,6 +5,7 @@ import { FormVinDecode } from '../tasks/formVinDecode';
 import { EUVinGenerate } from '../tasks/euVinGenerate';
 import { FormRegDecode } from '../tasks/formRegDecode';
 import { PreviewToCheckout } from '../tasks/previewToCheckout';
+import { ExitIntentTrigger } from '../tasks/exitIntentTrigger';
 
 const BASE_URL = process.env.BASE_URL || 'https://smartcarcheck.uk/';
 
@@ -88,6 +89,21 @@ test.describe('SCC Monitoring Flow', () => {
     await user.attemptsTo(
       FormVinDecode.forRegion('US'),
       PreviewToCheckout.initiate()
+    );
+  });
+
+  test('Case 5: Exit Intent Trigger on Preview Page', async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'Skipping Case 5: Exit intent mouse movements only apply to Desktop Chrome.');
+    test.setTimeout(90000); 
+    const user = Actor.named('Monitor User').whoCan(BrowseTheWeb.using(page));
+    
+    // Browse to base URL
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+
+    // Execute REG Decode to land on Preview page, then trigger the Exit Intent banner
+    await user.attemptsTo(
+      FormRegDecode.withReg('AK59ZVR'),
+      ExitIntentTrigger.initiate()
     );
   });
 
