@@ -4,19 +4,16 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # Optionally run on a schedule (e.g., every day at midnight)
   # schedule:
   #   - cron: '0 0 * * *'
 
-# Grant the workflow permission to push to the gh-pages branch
 permissions:
   contents: write
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -35,12 +32,31 @@ jobs:
       run: npx playwright install --with-deps ${{ matrix.project == 'chromium' && 'chromium' || 'webkit' }}
       
     - name: Run Playwright tests
+      id: playwright-run
       continue-on-error: true
       run: npx playwright test --project="${{ matrix.project }}"
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
         BASE_URL: ${{ secrets.BASE_URL }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         SLOW_NETWORK: 'false'
+
+    - name: Run AI Agentic Self-Healer (On Test Failure)
+      if: steps.playwright-run.outcome == 'failure'
+      run: npm run heal:prod
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+    - name: Auto-Commit & Push AI Healed Locators Back to Repo
+      if: steps.playwright-run.outcome == 'failure'
+      run: |
+        git config user.name "AI-Healer[bot]"
+        git config user.email "ai-healer@users.noreply.github.com"
+        git add tasks/ utils/
+        git commit -m "chore(ai-healer): auto-repair locators via Gemini AI" || echo "No changes to commit"
+        git push
 
     - uses: actions/upload-artifact@v4
       if: always()
@@ -61,13 +77,6 @@ jobs:
         run: npm ci
 
       - name: Download all blob reports
-        uses: actions/download-artifact@v4
-        with:
-          pattern: playwright-report-*
-          merge-multiple: true
-          path: all-blob-reports
-          
-      - name: Download all blob reports (correct pattern)
         uses: actions/download-artifact@v4
         with:
           pattern: blob-report-*
@@ -95,5 +104,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
-
-

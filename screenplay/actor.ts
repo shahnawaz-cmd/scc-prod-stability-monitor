@@ -1,5 +1,7 @@
 import { Ability, Task, Question } from './core';
 
+export { Ability, Task, Question } from './core';
+
 export class Actor {
   private abilities: Map<string, Ability> = new Map();
 

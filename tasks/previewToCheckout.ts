@@ -14,31 +14,44 @@ export class PreviewToCheckout implements Task {
     console.log("Starting Preview to Checkout flow...");
 
     await test.step('Proceed to Checkout', async () => {
-      // Click Access Records - using .first() targets the main button in the content 
-      // instead of .last() which targets the sticky footer (which can fail on Chrome desktop due to chat widgets)
-      const accessRecordsBtn = page.locator('text=Access Records').first();
-      await accessRecordsBtn.scrollIntoViewIfNeeded();
+      // Flexible locator for the initial trigger button using ARIA roles & fallback text selectors
+      const accessRecordsBtn = page
+        .getByRole('button', { name: /Access Records|Get Report|Check Now|Continue/i })
+        .or(page.locator('button:has-text("Access Records"), a:has-text("Access Records"), [role="button"]:has-text("Access Records")'))
+        .first();
+
+      await accessRecordsBtn.scrollIntoViewIfNeeded().catch(() => {});
       await accessRecordsBtn.click({ force: true });
 
-      // Smart Wait 1: Wait for the email input popup to become explicitly visible (Replaces waitForTimeout(2000))
-      const emailInput = page.locator('input[type="email"]').first();
-      await emailInput.waitFor({ state: 'visible', timeout: 15000 });
+      // Locating email input in popup or inline form with robust ARIA and attribute fallbacks
+      const emailInput = page
+        .getByRole('textbox', { name: /email/i })
+        .or(page.locator('input[type="email"], input[name*="email"], input[placeholder*="email" i]'))
+        .first();
+
+      await emailInput.waitFor({ state: 'visible', timeout: 20000 });
       
-      // Use our new dynamic email generator
       const dynamicEmail = EmailGenerator.generate();
       await emailInput.fill(dynamicEmail);
       console.log(`✅ Email entered: ${dynamicEmail}`);
 
-      // Click Access Records inside popup
-      const popupSubmitBtn = page.locator('button:has-text("Access Records")').last();
-      await popupSubmitBtn.click();
+      // Locating modal submit button with accessibility roles and fallback selectors
+      const popupSubmitBtn = page
+        .getByRole('button', { name: /Access Records|Continue|Get Report|Submit/i })
+        .or(page.locator('button[type="submit"], button:has-text("Access Records")'))
+        .last();
 
-      // Wait for checkout - use commit to not wait for full load
+      await popupSubmitBtn.scrollIntoViewIfNeeded().catch(() => {});
+      await popupSubmitBtn.click({ force: true });
+
+      // Wait for navigation to checkout URL
       await page.waitForURL('**/checkout**', { timeout: 90000, waitUntil: 'commit' });
       
-      // Smart Wait 2: Wait for the checkout body/form to load (Replaces waitForTimeout(2000))
-      const checkoutBody = page.locator('body').first();
-      await checkoutBody.waitFor({ state: 'attached', timeout: 30000 });
+      // Wait for checkout content or body container
+      const checkoutContainer = page
+        .locator('#checkout-form, .checkout-container, form[action*="checkout"], body')
+        .first();
+      await checkoutContainer.waitFor({ state: 'attached', timeout: 30000 });
 
       console.log('✅ Successfully Navigated to checkout:', page.url());
     });

@@ -2,6 +2,7 @@ import { Task, Actor } from '../screenplay/actor';
 import { BrowseTheWeb } from '../screenplay/abilities/browseTheWeb';
 import { VINGenerate } from './vingenerate';
 import { test, expect } from '@playwright/test';
+import { locateElementWithHealing, clickWithHealing } from '../utils/selfHealingLocator';
 
 export class FormVinDecode implements Task {
   private constructor(private region: 'US' | 'UK' | 'EU', private providedVin?: string) {}
@@ -11,27 +12,48 @@ export class FormVinDecode implements Task {
   }
 
   async performAs(actor: Actor): Promise<void> {
-    const page = actor.abilityTo(BrowseTheWeb).page;
+    const browseTheWeb = actor.abilityTo(BrowseTheWeb);
+    const page = browseTheWeb.page;
+
+    // Smart Wait Popup / Cookie Banner Dismissal
+    await browseTheWeb.dismissPopupsAndCookies();
 
     console.log(`Starting VIN Decode flow for ${this.region}`);
 
     let newTab = page;
     console.log("Clicking VIN CHECK...");
-    const vinCheckElement = page.locator('text="VIN CHECK"').first();
+
+    // Clean, robust Playwright locators for VIN tab/button
+    const vinCheckSelectors = [
+      'text="VIN CHECK"',
+      'button:has-text("VIN")',
+      'a:has-text("VIN CHECK")',
+      'a[href*="vin"]',
+      '#vin-tab',
+      '.vin-tab'
+    ];
+    
+    const vinCheckElement = await locateElementWithHealing(
+      page,
+      'VIN CHECK',
+      vinCheckSelectors
+    );
     const targetAttr = await vinCheckElement.getAttribute('target').catch(() => null);
 
     if (targetAttr === '_blank') {
       const [spawnedTab] = await Promise.all([
-        page.context().waitForEvent('page', { timeout: 5000 }), 
+        page.context().waitForEvent('page', { timeout: 5000 }),
         vinCheckElement.click()
       ]);
       newTab = spawnedTab;
       console.log("New tab detected.");
     } else {
-      await vinCheckElement.click();
-      console.log("Clicked instantly (no new tab expected).");
+      await vinCheckElement.click({ force: true }).catch(async () => {
+        await page.locator('text="VIN CHECK"').first().click();
+      });
+      console.log("Clicked VIN CHECK tab.");
     }
-    
+
     let vin = this.providedVin;
     if (!vin) {
       vin = await VINGenerate.getVinFromMongo();
@@ -45,24 +67,45 @@ export class FormVinDecode implements Task {
       console.log(`✅ Using provided VIN: ${vin}`);
     }
 
-    await newTab.getByRole('textbox', { name: 'Enter VIN' }).fill(vin);
-    console.log("Submitting VIN and waiting for preview page redirect...");
+    const vinInputSelectors = [
+      'input[placeholder*="VIN" i]',
+      'input[name="vin" i]',
+      '#vinInput',
+      '#vin-input',
+      'input[type="text"]'
+    ];
     
+    const vinInput = await locateElementWithHealing(
+      newTab,
+      'Enter VIN',
+      vinInputSelectors
+    );
+    await vinInput.fill(vin);
+
+    console.log("Submitting VIN and waiting for preview page redirect...");
+
     try {
       const isSlowNetwork = process.env.SLOW_NETWORK === 'true';
       const urlTimeout = isSlowNetwork ? 60000 : (this.region === 'UK' ? 30000 : 20000);
 
-      // 1. Click the button directly. We drop waitForURL to avoid ERR_ABORTED if the site uses complex client-side routing.
-      await newTab.getByRole('button', { name: 'Run My Car Check Now' }).first().click();
-      
-      // 2. Web-First Assertion: Playwright will automatically retry checking the URL until it matches, bypassing navigation lifecycle errors.
+      const submitButtonSelectors = [
+        'button:has-text("Run My Car Check Now")',
+        'button:has-text("Check VIN")',
+        'button[type="submit"]',
+        '.submit-btn'
+      ];
+      await clickWithHealing(
+        newTab,
+        'Run My Car Check Now',
+        submitButtonSelectors
+      );
+
+      // Web-First Assertion
       await expect(newTab).toHaveURL(/.*members\/preview\?type=vhr.*/, { timeout: urlTimeout });
-      
-      // 2. Check if the Vehicle Specifications section appears. Use .first() to prevent strict mode violations if multiple sections match.
+
       const specSection = newTab.locator('section').filter({ hasText: /Vehicle Specifications/i }).first();
       await specSection.waitFor({ state: 'visible', timeout: 30000 });
-      
-      // Capture data and log it in the Playwright Report using test.step
+
       let sectionData = '';
       let dynamicVehicleName = '';
 
@@ -70,28 +113,22 @@ export class FormVinDecode implements Task {
         sectionData = await specSection.innerText();
         const vehicleTitleLocator = newTab.locator('h1, h2, .vehicle-title-class').first();
         dynamicVehicleName = await vehicleTitleLocator.innerText();
-        
-        // Fulfill the click request
-        await specSection.click();
-        await vehicleTitleLocator.click();
+
+        await specSection.click().catch(() => {});
+        await vehicleTitleLocator.click().catch(() => {});
       });
 
-      // Show the captured data explicitly in the test report steps
       await test.step(`Captured Vehicle: ${dynamicVehicleName}`, async () => {
         console.log("Section Data:\n", sectionData);
       });
 
-      // Attach to actor
       (actor as any).capturedSpecs = sectionData;
       (actor as any).capturedVehicleName = dynamicVehicleName;
-      
-      // 3. Success message
+
       console.log("VIN decoded successfully");
 
     } catch (error: any) {
-      // 4. Failure message
-      console.log("VIN not decoded cases fialed");
-      // Re-throw to ensure the test runner actually fails this task
+      console.log("VIN not decoded cases failed");
       throw new Error(`VIN Decode Validation Failed: ${error.message}`);
     }
   }

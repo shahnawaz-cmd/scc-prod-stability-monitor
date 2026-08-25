@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noEmit": true
+  },
+  "include": [
+    "tasks/**/*.ts",
+    "tests/**/*.ts",
+    "screenplay/**/*.ts",
+    "utils/**/*.ts",
+    "playwright.config.ts"
+  ]
+}
