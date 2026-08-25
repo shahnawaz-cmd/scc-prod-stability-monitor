@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   test:
@@ -63,7 +64,7 @@ jobs:
       with:
         name: blob-report-${{ matrix.project }}
         path: blob-report/
-        retention-days: 30
+        retention-days: 1
 
   deploy-report:
     needs: test
@@ -80,11 +81,22 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: blob-report-*
-          merge-multiple: true
           path: all-blob-reports
 
       - name: Merge Reports
         run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
+
+      - name: Automated GitHub Issue Manager (Create/Close Issues)
+        if: always()
+        run: node scripts/manage-issues.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_SERVER: ${{ github.server_url }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_RUN: ${{ github.run_id }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_EVENT: ${{ github.event_name }}
 
       - name: Run Slack Notifier
         if: always()

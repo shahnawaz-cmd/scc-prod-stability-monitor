@@ -2,7 +2,7 @@ import { Task, Actor } from '../screenplay/actor';
 import { BrowseTheWeb } from '../screenplay/abilities/browseTheWeb';
 import { VINGenerate } from './vingenerate';
 import { test, expect } from '@playwright/test';
-import { locateElementWithHealing, clickWithHealing } from '../utils/selfHealingLocator';
+import { locateElementWithHealing, locateInputWithHealing, clickWithHealing } from '../utils/selfHealingLocator';
 
 export class FormVinDecode implements Task {
   private constructor(private region: 'US' | 'UK' | 'EU', private providedVin?: string) {}
@@ -23,16 +23,13 @@ export class FormVinDecode implements Task {
     let newTab = page;
     console.log("Clicking VIN CHECK...");
 
-    // Clean, robust Playwright locators for VIN tab/button
     const vinCheckSelectors = [
       'text="VIN CHECK"',
       'button:has-text("VIN")',
       'a:has-text("VIN CHECK")',
       'a[href*="vin"]',
       '#vin-tab',
-      '.vin-tab',
-      '[data-testid*="vin"]',
-      '[aria-label*="VIN" i]'
+      '.vin-tab'
     ];
     
     let vinCheckElement;
@@ -64,6 +61,9 @@ export class FormVinDecode implements Task {
       console.log("Clicked VIN CHECK tab.");
     }
 
+    // Smart Wait: Ensure tab transition completes and VIN input becomes visible
+    await newTab.waitForSelector('input[placeholder*="VIN" i], #vinInput, #vin-input, input[name*="vin" i]', { state: 'visible', timeout: 10000 }).catch(() => {});
+
     let vin = this.providedVin;
     if (!vin) {
       vin = await VINGenerate.getVinFromMongo();
@@ -83,16 +83,16 @@ export class FormVinDecode implements Task {
       'input[id*="vin" i]',
       '#vinInput',
       '#vin-input',
-      'input[aria-label*="VIN" i]',
       'input[type="text"]'
     ];
     
-    const vinInput = await locateElementWithHealing(
+    const vinInput = await locateInputWithHealing(
       newTab,
       'Enter VIN',
       vinInputSelectors
     );
     await vinInput.scrollIntoViewIfNeeded().catch(() => {});
+    await vinInput.click({ force: true }).catch(() => {});
     await vinInput.fill(vin);
 
     console.log("Submitting VIN and waiting for preview page redirect...");
@@ -105,20 +105,16 @@ export class FormVinDecode implements Task {
         'button:has-text("Run My Car Check Now")',
         'button:has-text("Check VIN")',
         'button:has-text("Decode VIN")',
-        'button:has-text("Check")',
-        'button:has-text("Get Report")',
         'button[type="submit"]',
-        'input[type="submit"]',
         '.submit-btn'
       ];
-
       await clickWithHealing(
         newTab,
         'Run My Car Check Now',
         submitButtonSelectors
       );
 
-      // Web-First Assertion with broad pattern matching preview, VHR, or checkout pages
+      // Web-First Assertion
       await expect(newTab).toHaveURL(/.*(members\/preview|preview|vhr|report|checkout).*/i, { timeout: urlTimeout });
 
       const specSection = newTab.locator('section, div, main').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details|Specs/i }).first();

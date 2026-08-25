@@ -7,10 +7,53 @@ export interface SelfHealingOptions {
 }
 
 /**
- * Self-healing locator helper with Condition-Based Timeouts for resilient element resolution.
- * Automatically tries multiple primary accessibility locators (getByRole, getByLabel, getByPlaceholder, getByTestId)
- * before cascading into fallback CSS/XPath selectors.
- * Always targets .first() to prevent Playwright strict mode violations when multiple inputs exist.
+ * Self-healing locator helper specifically designed for Input / Textbox fields.
+ * Prioritizes accessibility textboxes, labels, placeholders, and attribute selectors before CSS/XPath fallbacks.
+ * Always targets .first() to prevent Playwright strict mode violations.
+ */
+export async function locateInputWithHealing(
+  page: Page,
+  labelText: string,
+  fallbackSelectors: (string | ((page: Page) => Locator))[] = [],
+  options: SelfHealingOptions = {}
+): Promise<Locator> {
+  const isSlowNetwork = options.isSlowNetwork || process.env.SLOW_NETWORK === 'true';
+  const baseTimeout = options.timeout || (isSlowNetwork ? 10000 : 4000);
+  const strategyTimeout = options.strategyTimeout || Math.max(1500, Math.floor(baseTimeout / 3));
+
+  const strategies: (() => Locator)[] = [
+    () => page.getByRole('textbox', { name: labelText }).first(),
+    () => page.getByPlaceholder(labelText).first(),
+    () => page.getByLabel(labelText).first(),
+    () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')).first(),
+    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page).first() : page.locator(sel).first()))
+  ];
+
+  for (let i = 0; i < strategies.length; i++) {
+    const getLocator = strategies[i];
+    try {
+      const locator = getLocator();
+      const isVisible = await locator.isVisible({ timeout: strategyTimeout }).catch(() => false);
+      if (isVisible) {
+        console.log(`✅ [Self-Healing Input] Located field "${labelText}" using strategy #${i + 1}`);
+        return locator;
+      }
+    } catch (e) {
+      // Continue to next strategy
+    }
+  }
+
+  // If accessibility locators unverified, try first valid fallback selector
+  if (fallbackSelectors.length > 0) {
+    const sel = fallbackSelectors[0];
+    return typeof sel === 'function' ? sel(page).first() : page.locator(sel).first();
+  }
+
+  return strategies[0]();
+}
+
+/**
+ * Self-healing locator helper for general interactive UI elements.
  */
 export async function locateElementWithHealing(
   page: Page,
@@ -23,11 +66,9 @@ export async function locateElementWithHealing(
   const strategyTimeout = options.strategyTimeout || Math.max(1500, Math.floor(baseTimeout / 3));
 
   const strategies: (() => Locator)[] = [
-    () => page.getByRole('button', { name: labelText }).first(),
     () => page.getByRole('tab', { name: labelText }).first(),
-    () => page.getByRole('textbox', { name: labelText }).first(),
-    () => page.getByLabel(labelText).first(),
-    () => page.getByPlaceholder(labelText).first(),
+    () => page.getByRole('button', { name: labelText }).first(),
+    () => page.locator(`text="${labelText}"`).first(),
     () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')).first(),
     ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page).first() : page.locator(sel).first()))
   ];
@@ -36,19 +77,21 @@ export async function locateElementWithHealing(
     const getLocator = strategies[i];
     try {
       const locator = getLocator();
-
-      // Dynamic condition check: wait for element visibility with dynamic timeout
       const isVisible = await locator.isVisible({ timeout: strategyTimeout }).catch(() => false);
       if (isVisible) {
-        console.log(`✅ [Self-Healing] Successfully located element for "${labelText}" using strategy #${i + 1}`);
+        console.log(`✅ [Self-Healing] Located element "${labelText}" using strategy #${i + 1}`);
         return locator;
       }
     } catch (e) {
-      // Continue to next healing strategy
+      // Continue next strategy
     }
   }
 
-  console.warn(`⚠️ [Self-Healing] All primary strategies unverified for "${labelText}". Returning primary fallback strategy.`);
+  if (fallbackSelectors.length > 0) {
+    const sel = fallbackSelectors[0];
+    return typeof sel === 'function' ? sel(page).first() : page.locator(sel).first();
+  }
+
   return strategies[0]();
 }
 
@@ -84,6 +127,12 @@ export async function clickWithHealing(
     }
   }
 
-  console.warn(`⚠️ [Self-Healing Click] Strategies unverified for "${buttonTextTextOrLabel}". Executing fallback click.`);
+  if (fallbackSelectors.length > 0) {
+    const sel = fallbackSelectors[0];
+    const loc = typeof sel === 'function' ? sel(page).first() : page.locator(sel).first();
+    await loc.click({ force: true }).catch(() => {});
+    return;
+  }
+
   await strategies[0]().click();
 }

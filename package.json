@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npx playwright test",
     "heal:prod": "node scripts/agentic-healer-ci.js",
-    "heal:ci": "node scripts/agentic-healer-ci.js"
+    "heal:ci": "node scripts/agentic-healer-ci.js",
+    "manage-issues": "node scripts/manage-issues.js"
   },
   "keywords": [],
   "type": "commonjs",
@@ -14,10 +15,11 @@
     "@playwright/test": "^1.62.1",
     "@types/mongodb": "^4.0.6",
     "@types/node": "^26.1.2",
-    "typescript": "^7.0.2"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
+    "@google/generative-ai": "^0.24.0",
+    "@octokit/rest": "^20.1.0",
     "axios": "^1.19.0",
     "dotenv": "^17.4.2",
     "mongodb": "^7.5.0"
