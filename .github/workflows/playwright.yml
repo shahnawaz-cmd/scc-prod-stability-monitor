@@ -45,8 +45,10 @@ jobs:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
 
-    - name: Install Playwright Browsers & OS Deps
-      run: npx playwright install --with-deps ${{ matrix.project == 'Mobile Safari' && 'webkit' || 'chromium' }}
+    - name: Install Playwright Browsers
+      run: |
+        sudo rm -f /etc/apt/sources.list.d/azure-cli.list /etc/apt/sources.list.d/microsoft-prod.list || true
+        npx playwright install ${{ matrix.project == 'Mobile Safari' && 'webkit' || 'chromium' }}
       
     - name: Mask Sensitive Secrets in CI Logs
       run: |
