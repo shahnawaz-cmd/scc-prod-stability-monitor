@@ -5,8 +5,8 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
- * Playwright Configuration for SCC Monitoring Flow
- * Configured with resilient CI timeouts, trace, video, and screenshot artifact recording on failure.
+ * Playwright Configuration for SCC Production Monitoring & Member Area Flows
+ * Single unified configuration routing specific test suites to designated browser devices.
  */
 export default defineConfig({
   testDir: './tests',
@@ -24,7 +24,7 @@ export default defineConfig({
 
   /* Fail the build on CI if test.only was left in code */
   forbidOnly: !!process.env.CI,
-
+ 
   /* Retries in CI (1 retry to avoid multiplier effect) */
   retries: process.env.CI ? 1 : 0,
 
@@ -33,8 +33,9 @@ export default defineConfig({
 
   /* Reporter config */
   reporter: process.env.CI ? [['blob']] : [
-    ['html'],
-    ['json', { outputFile: 'results.json' }]
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'results.json' }],
+    ['list']
   ],
 
   /* Shared settings */
@@ -53,13 +54,23 @@ export default defineConfig({
 
   /* Browser Projects */
   projects: [
+    // 🌐 Public Monitoring Flow
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      testMatch: /scc-monitoring\.spec\.ts/,
     },
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
+      testMatch: /scc-monitoring\.spec\.ts/,
+    },
+
+    // 🔒 Member Area Monitoring Flow (Mobile Chrome Only)
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+      testMatch: /scc-member-area\.spec\.ts/,
     },
   ],
 });

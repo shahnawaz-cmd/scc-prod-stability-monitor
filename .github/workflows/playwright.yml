@@ -18,12 +18,12 @@ permissions:
 
 jobs:
   test:
-    timeout-minutes: 12
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, "Mobile Safari"]
+        project: [chromium, "Mobile Safari", "Mobile Chrome"]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -46,32 +46,38 @@ jobs:
         key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
 
     - name: Install Playwright Browsers & OS Deps
-      run: npx playwright install --with-deps ${{ matrix.project == 'chromium' && 'chromium' || 'webkit' }}
+      run: npx playwright install --with-deps ${{ matrix.project == 'Mobile Safari' && 'webkit' || 'chromium' }}
       
     - name: Mask Sensitive Secrets in CI Logs
       run: |
         echo "::add-mask::${{ secrets.MONGO_URI }}"
         echo "::add-mask::${{ secrets.GEMINI_API_KEY }}"
         echo "::add-mask::${{ secrets.SLACK_WEBHOOK_URL }}"
+        echo "::add-mask::${{ secrets.SCC_ADMIN_LOGIN_URL }}"
+        echo "::add-mask::${{ secrets.SCC_ADMIN_TOKEN }}"
 
     - name: Run Playwright tests
       id: playwright-run
-      timeout-minutes: 8
+      timeout-minutes: 10
       continue-on-error: true
       run: npx playwright test --project="${{ matrix.project }}"
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
         BASE_URL: ${{ secrets.BASE_URL }}
+        SCC_ADMIN_LOGIN_URL: ${{ secrets.SCC_ADMIN_LOGIN_URL }}
+        SCC_ADMIN_TOKEN: ${{ secrets.SCC_ADMIN_TOKEN }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         SLOW_NETWORK: 'false'
 
     - name: Run AI Agentic Self-Healer (On Test Failure)
       if: steps.playwright-run.outcome == 'failure'
-      timeout-minutes: 3
+      timeout-minutes: 5
       run: npm run heal:prod
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
         BASE_URL: ${{ secrets.BASE_URL }}
+        SCC_ADMIN_LOGIN_URL: ${{ secrets.SCC_ADMIN_LOGIN_URL }}
+        SCC_ADMIN_TOKEN: ${{ secrets.SCC_ADMIN_TOKEN }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     - name: Auto-Commit & Push AI Healed Locators Back to Repo
@@ -79,76 +85,65 @@ jobs:
       run: |
         git config user.name "AI-Healer[bot]"
         git config user.email "ai-healer@users.noreply.github.com"
-        git add tasks/ utils/
-        git commit -m "chore(ai-healer): auto-repair locators via Gemini AI" || echo "No changes to commit"
-        git push
+        git add tasks/ utils/ "SCC member area monitoring/"
+        git diff --staged --quiet || git commit -m "chore(ai-healer): auto-repair locators via Gemini [skip ci]"
+        git push origin HEAD:${{ github.ref_name }} || echo "No changes or push failed"
 
-    - name: Upload Failure Artifacts (Videos, Traces, Screenshots)
-      uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: failure-artifacts-${{ matrix.project }}
-        path: test-results/
-        retention-days: 3   # Automatically prunes failure videos and traces after 72 hours
-
-    - name: Upload Blob Report
-      uses: actions/upload-artifact@v4
+    - name: Upload Test Results Artifact
       if: always()
+      uses: actions/upload-artifact@v4
       with:
-        name: blob-report-${{ matrix.project == 'chromium' && 'chromium' || 'mobile-safari' }}
+        name: test-results-${{ matrix.project }}
+        path: test-results/
+        retention-days: 7
+
+    - name: Upload Playwright Blob Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: blob-report-${{ matrix.project }}
         path: blob-report/
         retention-days: 1
 
-  deploy-report:
-    needs: test
+    - name: Manage GitHub Issues on Failure / Recovery
+      if: always()
+      run: node scripts/manage-issues.js
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PROJECT_NAME: ${{ matrix.project }}
+        TEST_OUTCOME: ${{ steps.playwright-run.outcome }}
+
+    - name: Set Step Status
+      if: steps.playwright-run.outcome == 'failure'
+      run: exit 1
+
+  merge-reports:
     if: always()
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Install dependencies
-        run: npm ci
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        cache: 'npm'
 
-      - name: Download all blob reports
-        uses: actions/download-artifact@v4
-        with:
-          pattern: blob-report-*
-          path: all-blob-reports
-          merge-multiple: true
+    - name: Install dependencies
+      run: npm ci
 
-      - name: Merge Reports
-        run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
+    - name: Download all Blob Reports
+      uses: actions/download-artifact@v4
+      with:
+        path: all-blob-reports
+        pattern: blob-report-*
+        merge-multiple: true
 
-      - name: Automated GitHub Issue Manager (Create/Close Issues)
-        if: always()
-        run: node scripts/manage-issues.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_SERVER: ${{ github.server_url }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_RUN: ${{ github.run_id }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_REF: ${{ github.ref }}
-          GITHUB_EVENT: ${{ github.event_name }}
+    - name: Merge Playwright HTML Reports
+      run: npx playwright merge-reports --reporter html ./all-blob-reports
 
-      - name: Run Slack Notifier
-        if: always()
-        run: node slack-notify.js
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          GITHUB_SERVER: ${{ github.server_url }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_RUN: ${{ github.run_id }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_REF: ${{ github.ref }}
-          GITHUB_EVENT: ${{ github.event_name }}
-          BASE_URL: 'https://smartcarcheck.uk'
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          force_orphan: true
+    - name: Upload Unified HTML Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-report--attempt-${{ github.run_attempt }}
+        path: playwright-report/
+        retention-days: 14
