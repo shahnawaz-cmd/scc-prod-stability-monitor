@@ -12,6 +12,13 @@ export class EmailGenerator {
     const randomString = Math.random().toString(36).substring(2, 8);
     
     // Append it using the '+' symbol before the domain
-    return `${baseName}+${randomString}${domain}`;
+    const email = `${baseName}+${randomString}${domain}`;
+
+    // Mask sensitive test email in GitHub Actions CI logs
+    if (process.env.GITHUB_ACTIONS) {
+      console.log(`::add-mask::${email}`);
+    }
+
+    return email;
   }
 }

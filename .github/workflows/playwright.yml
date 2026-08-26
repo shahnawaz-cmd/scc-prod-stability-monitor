@@ -8,13 +8,17 @@ on:
   # schedule:
   #   - cron: '0 0 * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   issues: write
 
 jobs:
   test:
-    timeout-minutes: 15
+    timeout-minutes: 12
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -25,15 +29,34 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+        cache: 'npm'
         
     - name: Install dependencies
       run: npm ci
       
-    - name: Install Playwright Browsers
+    - name: Get Playwright Version
+      id: playwright-version
+      run: echo "version=$(npx playwright --version | cut -d ' ' -f 2)" >> $GITHUB_OUTPUT
+
+    - name: Cache Playwright Browsers
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+
+    - name: Install Playwright Browsers & OS Deps
       run: npx playwright install --with-deps ${{ matrix.project == 'chromium' && 'chromium' || 'webkit' }}
       
+    - name: Mask Sensitive Secrets in CI Logs
+      run: |
+        echo "::add-mask::${{ secrets.MONGO_URI }}"
+        echo "::add-mask::${{ secrets.GEMINI_API_KEY }}"
+        echo "::add-mask::${{ secrets.SLACK_WEBHOOK_URL }}"
+
     - name: Run Playwright tests
       id: playwright-run
+      timeout-minutes: 8
       continue-on-error: true
       run: npx playwright test --project="${{ matrix.project }}"
       env:
@@ -44,6 +67,7 @@ jobs:
 
     - name: Run AI Agentic Self-Healer (On Test Failure)
       if: steps.playwright-run.outcome == 'failure'
+      timeout-minutes: 3
       run: npm run heal:prod
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
@@ -59,7 +83,16 @@ jobs:
         git commit -m "chore(ai-healer): auto-repair locators via Gemini AI" || echo "No changes to commit"
         git push
 
-    - uses: actions/upload-artifact@v4
+    - name: Upload Failure Artifacts (Videos, Traces, Screenshots)
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: failure-artifacts-${{ matrix.project }}
+        path: test-results/
+        retention-days: 3   # Automatically prunes failure videos and traces after 72 hours
+
+    - name: Upload Blob Report
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: blob-report-${{ matrix.project }}

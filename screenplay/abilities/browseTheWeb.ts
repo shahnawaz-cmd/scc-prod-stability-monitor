@@ -2,44 +2,88 @@ import { Page, Locator } from '@playwright/test';
 import { Ability } from '../core';
 
 export class BrowseTheWeb implements Ability {
-  constructor(public page: Page) {}
+  constructor(public page: Page) {
+    this.registerAutoPopupHandlers();
+  }
 
   static using(page: Page): BrowseTheWeb {
     return new BrowseTheWeb(page);
   }
 
   /**
-   * Smart Popup & Cookie Banner Dismissal Helper
-   * Uses non-blocking smart wait techniques to detect and dismiss cookie consent dialogs, 
-   * newsletter modals, or GDPR popups without slowing down test execution when absent.
+   * Automatically intercepts and dismisses overlay dialogs/popups whenever
+   * any subsequent Playwright action is blocked by an overlay.
    */
-  async dismissPopupsAndCookies(customTimeout: number = 3000): Promise<boolean> {
-    const popupLocators: Locator[] = [
-      this.page.locator('button:has-text("Accept All"), button:has-text("Allow All"), button:has-text("Accept Cookies"), button:has-text("I Agree"), button:has-text("Got it")'),
-      this.page.locator('#cookie-consent-accept, .cookie-accept-btn, .cc-accept, [aria-label*="accept cookies" i]'),
-      this.page.locator('.modal-close, .popup-close, button[aria-label="Close"], .close-modal-btn')
+  private registerAutoPopupHandlers(): void {
+    try {
+      // Cookie consent banner auto-handler (safe to auto-dismiss globally)
+      const cookieAcceptBtn = this.page.locator(
+        '#cookie-consent-accept, .cookie-accept-btn, .cc-accept, button:has-text("Accept All"), button:has-text("Allow All"), button:has-text("Accept Cookies"), button:has-text("I Agree")'
+      );
+      this.page.addLocatorHandler(cookieAcceptBtn.first(), async (locator) => {
+        console.log('🛡️ [Auto-Handler] Dismissing cookie consent banner...');
+        await locator.click({ force: true }).catch(() => {});
+      });
+    } catch (e) {
+      // Ignore if addLocatorHandler is not supported in the current environment
+    }
+  }
+
+  /**
+   * Smart Popup & Cookie Banner Dismissal Helper
+   * Checks visible-only elements and frames to dismiss cookie consent dialogs,
+   * newsletter modals, or GDPR popups without hanging test execution.
+   */
+  async dismissPopupsAndCookies(customTimeout: number = 2000): Promise<boolean> {
+    const dismissSelectors = [
+      '#exitIntentCloseBtn',
+      '.exit-intent-close-btn',
+      'button.exit-intent-secondary-btn',
+      'button[aria-label*="close" i]',
+      'button:has-text("Accept All")',
+      'button:has-text("Allow All")',
+      'button:has-text("Accept Cookies")',
+      'button:has-text("I Agree")',
+      'button:has-text("No Thanks")',
+      'button:has-text("Got it")',
+      '#cookie-consent-accept',
+      '.cookie-accept-btn',
+      '.cc-accept',
+      '.modal-close',
+      '.popup-close',
+      '.close-modal-btn'
     ];
 
-    for (const locator of popupLocators) {
+    for (const sel of dismissSelectors) {
       try {
-        // Smart Wait 1: Non-blocking visibility condition check with short timeout
-        const isVisible = await locator.first().isVisible({ timeout: customTimeout }).catch(() => false);
+        const locator = this.page.locator(sel).locator('visible=true').first();
+        const isVisible = await locator.isVisible({ timeout: customTimeout }).catch(() => false);
         if (isVisible) {
-          console.log('🛡️ [Smart Wait] Cookie/Popup banner detected. Dismissing...');
-          
-          // Smart Wait 2: Ensure element is scrolled into view before interacting
-          await locator.first().scrollIntoViewIfNeeded().catch(() => {});
-          await locator.first().click({ force: true }).catch(() => {});
-          
-          // Smart Wait 3: Wait for element state to detach or transition to hidden
-          await locator.first().waitFor({ state: 'hidden', timeout: 2500 }).catch(() => {});
+          console.log(`🛡️ [Smart Wait] Cookie/Popup banner detected ("${sel}"). Dismissing...`);
+          await locator.scrollIntoViewIfNeeded().catch(() => {});
+          await locator.click({ force: true }).catch(() => {});
+          await locator.waitFor({ state: 'hidden', timeout: 2000 }).catch(() => {});
           console.log('✅ [Smart Wait] Cookie/Popup banner dismissed successfully.');
           return true;
         }
       } catch (e) {
-        // Gracefully move to next locator strategy
+        // Gracefully continue to next selector
       }
     }
+
+    // Check embedded iframe overlays if present
+    for (const frame of this.page.frames()) {
+      try {
+        const frameBtn = frame.locator('button[aria-label*="close" i], button:has-text("Accept"), button:has-text("I Agree")').locator('visible=true').first();
+        if (await frameBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
+          console.log('🛡️ [Smart Wait] Dismissing popup inside iframe...');
+          await frameBtn.click({ force: true }).catch(() => {});
+          return true;
+        }
+      } catch (e) {}
+    }
+
     return false;
   }
 }
+

@@ -19,6 +19,13 @@ let passedCount = 0;
 let failedCount = 0;
 let flakyCount = 0;
 let totalRetries = 0;
+let aiHealedInfo = null;
+
+if (fs.existsSync('.ai-healed.json')) {
+  try {
+    aiHealedInfo = JSON.parse(fs.readFileSync('.ai-healed.json', 'utf8'));
+  } catch (e) {}
+}
 
 console.log('Current working directory:', process.cwd());
 console.log('Checking for results.json...');
@@ -58,12 +65,10 @@ try {
   allSpecs.forEach(spec => {
     if (!spec.tests || spec.tests.length === 0) return;
     
-    // Process every test instance (project/browser run) of this spec
     for (const testInstance of spec.tests) {
       const attempts = testInstance.results || [];
       if (attempts.length === 0) continue;
       
-      // Count retries across all attempts of this test configuration
       totalRetries += Math.max(0, attempts.length - 1);
 
       const hasFailures = attempts.some(r => r.status === 'failed' || r.status === 'timedOut');
@@ -92,11 +97,9 @@ try {
         passedCount++;
       } else if (finalStatus === 'failed') {
         failedCount++;
-        // Extract the error message from the last failed attempt
         const lastFailure = attempts.reverse().find(r => r.status === 'failed' || r.status === 'timedOut');
         let errorMsg = 'Unknown error';
         if (lastFailure && lastFailure.error && lastFailure.error.message) {
-          // Take the first line of the error, clean it, and limit length to keep Slack tidy
           errorMsg = lastFailure.error.message.split('\n')[0].substring(0, 150);
         }
         failedSpecs.push({ title: spec.title, browser, error: errorMsg });
@@ -104,7 +107,6 @@ try {
     }
   });
 
-  // Build enhanced grouped summary
   let summaryParts = [];
   if (failedSpecs.length > 0) {
     summaryParts.push(`*🔴 Failed Tests (${failedSpecs.length}):*\n` + failedSpecs.map(s => `• *${s.title}* (_${s.browser}_)\n    > ❌ \`${s.error}\``).join('\n'));
@@ -114,6 +116,10 @@ try {
   }
   summaryParts.push(`*🟢 Passed Tests:* \`${passedCount}\` specs completed successfully.`);
   
+  if (aiHealedInfo && aiHealedInfo.healed) {
+    summaryParts.push(`*🤖 AI Agentic Self-Healer Status:* ✨ *Auto-Repaired via Gemini AI (${aiHealedInfo.model})*\n• *Files Auto-Healed:* \`${aiHealedInfo.repairedFiles.join('`, `')}\``);
+  }
+
   testSummary = summaryParts.join('\n\n');
   console.log('Grouped test summary generated:', testSummary);
 } catch (e) {
@@ -121,7 +127,6 @@ try {
   testSummary = 'Could not parse test results.';
 }
 
-// Derive Site and Env
 const site = 'SmartCarCheck';
 const env = 'Prod';
 
@@ -129,16 +134,14 @@ const runUrl = `${GITHUB_SERVER}/${GITHUB_REPO}/actions/runs/${GITHUB_RUN}`;
 const owner = GITHUB_REPO ? GITHUB_REPO.split('/')[0] : '';
 const repoName = GITHUB_REPO ? GITHUB_REPO.split('/')[1] : '';
 
-// Append the specific matrix project folder (e.g. /chromium) if available
 const projectFolder = MATRIX_PROJECT ? MATRIX_PROJECT.replace(' ', '%20') + '/' : '';
 const reportUrl = REPORT_URL || ((owner && repoName) ? `https://${owner}.github.io/${repoName}/${projectFolder}` : '');
 
-// A run is successful if there are zero failed tests (flaky tests are allowed)
 const isSuccess = failedCount === 0 && (passedCount > 0 || flakyCount > 0);
 const statusEmoji = isSuccess ? '✅' : '❌';
-const statusText = isSuccess ? 'Passed' : 'Failed';
+const statusText = isSuccess ? (aiHealedInfo?.healed ? 'Passed (AI Auto-Healed 🤖)' : 'Passed') : 'Failed';
 const mentions = !isSuccess ? ' CC: <@U03UR6FFQKB> <@U09UE83AWGP>' : '';
-const barColor = isSuccess ? '#2EB67D' : '#E01E5A'; // Slack Green or Red
+const barColor = isSuccess ? '#2EB67D' : '#E01E5A';
 
 const payload = {
   text: `${statusEmoji} SCC Monitoring Flow (Cross Browser Testflow)${mentions}`,
@@ -190,12 +193,11 @@ const payload = {
 console.log('Slack Payload:', JSON.stringify(payload, null, 2));
 
 if (SLACK_WEBHOOK_URL) {
-  // 1. Post main channel notification
-  axios.post(SLACK_WEBHOOK_URL, payload)
+  axios.post(SLACK_WEBHOOK_URL, payload, { timeout: 10000 })
     .then(() => {
       console.log('Slack main channel notification sent successfully.');
     })
-    .catch(err => console.error('Error sending Slack notification:', err));
+    .catch(err => console.error('Error sending Slack notification:', err.message));
 } else {
   console.log('SLACK_WEBHOOK_URL not set, skipping notification.');
 }

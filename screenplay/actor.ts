@@ -4,6 +4,7 @@ export { Ability, Task, Question } from './core';
 
 export class Actor {
   private abilities: Map<string, Ability> = new Map();
+  private memory: Map<string, any> = new Map();
 
   constructor(public name: string) {}
 
@@ -24,6 +25,31 @@ export class Actor {
       throw new Error(`${this.name} does not have the ability to ${abilityClass.name}`);
     }
     return ability;
+  }
+
+  remember(key: string, value: any): this {
+    this.memory.set(key, value);
+    return this;
+  }
+
+  recall<T = any>(key: string): T | undefined {
+    return this.memory.get(key) as T;
+  }
+
+  get capturedVehicleName(): string {
+    return this.recall<string>('capturedVehicleName') || 'Unknown Vehicle';
+  }
+
+  set capturedVehicleName(value: string) {
+    this.remember('capturedVehicleName', value);
+  }
+
+  get capturedSpecs(): string {
+    return this.recall<string>('capturedSpecs') || '';
+  }
+
+  set capturedSpecs(value: string) {
+    this.remember('capturedSpecs', value);
   }
 
   async attemptsTo(...tasks: Task[]): Promise<void> {

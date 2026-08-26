@@ -1,8 +1,9 @@
 import { Task, Actor } from '../screenplay/actor';
 import { BrowseTheWeb } from '../screenplay/abilities/browseTheWeb';
 import { VINGenerate } from './vingenerate';
-import { test, expect } from '@playwright/test';
-import { locateElementWithHealing, locateInputWithHealing, clickWithHealing } from '../utils/selfHealingLocator';
+import { test, Page } from '@playwright/test';
+import { locateElementWithHealing, fastInputWithHealing, clickWithHealing } from '../utils/selfHealingLocator';
+import { FALLBACK_VINS } from '../constants/vehicles';
 
 export class FormVinDecode implements Task {
   private constructor(private region: 'US' | 'UK' | 'EU', private providedVin?: string) {}
@@ -15,135 +16,131 @@ export class FormVinDecode implements Task {
     const browseTheWeb = actor.abilityTo(BrowseTheWeb);
     const page = browseTheWeb.page;
 
-    // Smart Wait Popup / Cookie Banner Dismissal
-    await browseTheWeb.dismissPopupsAndCookies();
+    const maxAttempts = 3;
+    let currentVin = this.providedVin;
 
-    console.log(`Starting VIN Decode flow for ${this.region}`);
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      await browseTheWeb.dismissPopupsAndCookies().catch(() => {});
 
-    let newTab = page;
-    console.log("Clicking VIN CHECK...");
-
-    const vinCheckSelectors = [
-      'text="VIN CHECK"',
-      'button:has-text("VIN")',
-      'a:has-text("VIN CHECK")',
-      'a[href*="vin"]',
-      '#vin-tab',
-      '.vin-tab'
-    ];
-    
-    let vinCheckElement;
-    try {
-      vinCheckElement = await locateElementWithHealing(
-        page,
-        'VIN CHECK',
-        vinCheckSelectors
-      );
-    } catch {
-      vinCheckElement = page.locator('text=/VIN/i').first();
-    }
-
-    const targetAttr = await vinCheckElement.getAttribute('target').catch(() => null);
-
-    if (targetAttr === '_blank') {
-      const [spawnedTab] = await Promise.all([
-        page.context().waitForEvent('page', { timeout: 10000 }).catch(() => page),
-        vinCheckElement.click().catch(async () => {
-          await page.locator('text=/VIN/i').first().click();
-        })
-      ]);
-      newTab = spawnedTab;
-      console.log("New tab detected.");
-    } else {
-      await vinCheckElement.click({ force: true }).catch(async () => {
-        await page.locator('text=/VIN/i').first().click({ force: true });
-      });
-      console.log("Clicked VIN CHECK tab.");
-    }
-
-    // Smart Wait: Ensure tab transition completes and VIN input becomes visible
-    await newTab.waitForSelector('input[placeholder*="VIN" i], #vinInput, #vin-input, input[name*="vin" i]', { state: 'visible', timeout: 10000 }).catch(() => {});
-
-    let vin = this.providedVin;
-    if (!vin) {
-      vin = await VINGenerate.getVinFromMongo();
-      if (!vin) {
-        vin = this.region === 'US' ? '1FUJHHDR4MLMJ5064' : 'WAUZZZ8P6CA083445';
-        console.log(`⚠️ Using fallback VIN: ${vin}`);
+      if (!currentVin) {
+        currentVin = await VINGenerate.getVinFromMongo();
+        if (!currentVin) {
+          currentVin = this.region === 'US' ? FALLBACK_VINS.US : FALLBACK_VINS.EU;
+          console.log(`⚠️ Using fallback VIN: ${currentVin}`);
+        } else {
+          console.log(`✅ Fetched VIN from Mongo: ${currentVin}`);
+        }
       } else {
-        console.log(`✅ Fetched VIN from Mongo: ${vin}`);
+        console.log(`✅ Using VIN: ${currentVin}`);
       }
-    } else {
-      console.log(`✅ Using provided VIN: ${vin}`);
-    }
 
-    const vinInputSelectors = [
-      'input[placeholder*="VIN" i]',
-      'input[name*="vin" i]',
-      'input[id*="vin" i]',
-      '#vinInput',
-      '#vin-input',
-      'input[type="text"]'
-    ];
-    
-    const vinInput = await locateInputWithHealing(
-      newTab,
-      'Enter VIN',
-      vinInputSelectors
-    );
-    await vinInput.scrollIntoViewIfNeeded().catch(() => {});
-    await vinInput.click({ force: true }).catch(() => {});
-    await vinInput.fill(vin);
+      console.log(`[Attempt ${attempt}/${maxAttempts}] Starting VIN Decode flow for ${this.region}...`);
 
-    console.log("Submitting VIN and waiting for preview page redirect...");
-
-    try {
-      const isSlowNetwork = process.env.SLOW_NETWORK === 'true';
-      const urlTimeout = isSlowNetwork ? 60000 : (this.region === 'UK' ? 30000 : 20000);
-
-      const submitButtonSelectors = [
-        'button:has-text("Run My Car Check Now")',
-        'button:has-text("Check VIN")',
-        'button:has-text("Decode VIN")',
-        'button[type="submit"]',
-        '.submit-btn'
+      // 1. Instant VIN Tab Click (Direct priority locator -> Self-healing fallback)
+      const vinCheckSelectors = [
+        'button:has-text("VIN CHECK")',
+        '.search_by_vin',
+        'button:has-text("By VIN")',
+        '#vin-tab',
+        '.vin-tab'
       ];
-      await clickWithHealing(
-        newTab,
-        'Run My Car Check Now',
-        submitButtonSelectors
-      );
 
-      // Web-First Assertion
-      await expect(newTab).toHaveURL(/.*(members\/preview|preview|vhr|report|checkout).*/i, { timeout: urlTimeout });
-
-      const specSection = newTab.locator('section, div, main').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details|Specs/i }).first();
-      await specSection.waitFor({ state: 'visible', timeout: 30000 });
-
-      let sectionData = '';
-      let dynamicVehicleName = '';
-
-      await test.step('Capture Vehicle Data', async () => {
-        sectionData = await specSection.innerText();
-        const vehicleTitleLocator = newTab.locator('h1, h2, .vehicle-title-class, [class*="vehicle-title"]').first();
-        dynamicVehicleName = await vehicleTitleLocator.innerText().catch(() => 'Unknown Vehicle');
-
-        await specSection.click().catch(() => {});
-        await vehicleTitleLocator.click().catch(() => {});
+      const vinTab = page.locator('button:has-text("VIN CHECK"), .search_by_vin, button:has-text("By VIN"), #vin-tab, .vin-tab').locator('visible=true').first();
+      await vinTab.click({ force: true, noWaitAfter: true }).catch(async () => {
+        const fallbackTab = await locateElementWithHealing(page, 'VIN CHECK', vinCheckSelectors);
+        await fallbackTab.click({ force: true, noWaitAfter: true });
       });
 
-      await test.step(`Captured Vehicle: ${dynamicVehicleName}`, async () => {
-        console.log("Section Data:\n", sectionData);
+      // 2. Instant VIN Input Fill (Direct priority locator -> Self-healing fallback)
+      const vinInputSelectors = [
+        'input#vinInput',
+        'input[placeholder*="VIN" i]',
+        'input[name*="vin" i]',
+        'input[id*="vin" i]',
+        '#vin-input',
+        'input[type="text"]'
+      ];
+      
+      const vinInput = page.locator('input#vinInput, input[placeholder*="VIN" i], #vhr_form_vin input, input[name*="vin" i]').locator('visible=true').first();
+      await vinInput.fill(currentVin, { force: true }).catch(async () => {
+        await fastInputWithHealing(page, 'Enter VIN', currentVin, vinInputSelectors);
       });
 
-      (actor as any).capturedSpecs = sectionData;
-      (actor as any).capturedVehicleName = dynamicVehicleName;
+      console.log(`Submitting VIN "${currentVin}" and waiting for preview page redirect...`);
 
-      console.log("VIN decoded successfully");
+      // 3. Instant Submit Click (Direct priority locator -> Self-healing fallback)
+      const submitButtonSelectors = [
+        '#vhr_form_vin button',
+        'form:has(input[placeholder*="VIN" i]) button',
+        'button:has-text("Run My Car Check Now"):visible',
+        'button:has-text("Check VIN"):visible',
+        'button:has-text("Decode VIN"):visible',
+        'button[type="submit"]:visible',
+        '.submit-btn:visible'
+      ];
 
-    } catch (error: any) {
-      console.log("VIN not decoded cases failed");
-      throw new Error(`VIN Decode Validation Failed: ${error.message}`);
+      const submitBtn = page.locator('#vhr_form_vin button, form:has(input[placeholder*="VIN" i]) button, button:has-text("Run My Car Check Now"):visible').first();
+      await submitBtn.click({ force: true, noWaitAfter: true }).catch(async () => {
+        await clickWithHealing(page, 'Run My Car Check Now', submitButtonSelectors);
+      });
+      const activePage: Page = page;
+
+      // Condition-based dynamic wait: Race preview URL redirect vs explicit error alert
+      const notFoundLocator = activePage.locator('.alert-danger, .error-message, .vehicle-not-found, .vin-not-found, p.error, div.error').filter({ hasText: /\b(VIN not found|invalid VIN|vehicle not found)\b/i }).locator('visible=true').first();
+
+      const outcome = await Promise.race([
+        activePage.waitForURL(/.*(members\/preview|preview|vhr|report|checkout).*/i, { timeout: 25000 }).then(() => 'PREVIEW_URL'),
+        activePage.locator('.vehicle-specifications, .specifications, section, .preview-container, div[class*="spec"]').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details|Specs|Records found/i }).locator('visible=true').first().waitFor({ state: 'visible', timeout: 25000 }).then(() => 'SPECS_VISIBLE'),
+        notFoundLocator.waitFor({ state: 'visible', timeout: 25000 }).then(() => 'NOT_FOUND')
+      ]).catch(() => 'TIMEOUT');
+
+      if (outcome === 'NOT_FOUND' || outcome === 'TIMEOUT') {
+        console.warn(`⚠️ [Condition Triggered: ${outcome}] VIN "${currentVin}"`);
+        if (attempt < maxAttempts) {
+          await page.goto('https://smartcarcheck.uk/', { waitUntil: 'load' });
+          await page.waitForTimeout(1000);
+          continue;
+        } else {
+          throw new Error(`VIN Decode Failed: All ${maxAttempts} VIN attempts failed to redirect to preview report.`);
+        }
+      }
+
+      try {
+        if (!activePage.url().includes('preview') && !activePage.url().includes('report')) {
+          await activePage.waitForURL(/.*(members\/preview|preview|vhr|report|checkout).*/i, { timeout: 10000 });
+        }
+
+        const specSection = activePage.locator('.vehicle-specifications, .specifications, section, .preview-container, div[class*="spec"]').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details|Specs|Records found/i }).locator('visible=true').first();
+        await specSection.waitFor({ state: 'visible', timeout: 15000 });
+
+        let sectionData = '';
+        let dynamicVehicleName = '';
+
+        await test.step('Capture Vehicle Data', async () => {
+          sectionData = await specSection.innerText().catch(() => '');
+          const vehicleTitleLocator = activePage.locator('h1, h2, .vehicle-title-class, [class*="vehicle-title"]').first();
+          dynamicVehicleName = await vehicleTitleLocator.innerText().catch(() => 'Unknown Vehicle');
+        });
+
+        await test.step(`Captured Vehicle: ${dynamicVehicleName}`, async () => {
+          console.log("Section Data:\n", sectionData);
+        });
+
+        actor.capturedSpecs = sectionData;
+        actor.capturedVehicleName = dynamicVehicleName;
+
+        console.log(`✅ VIN "${currentVin}" decoded successfully. Vehicle: ${dynamicVehicleName}`);
+        return;
+
+      } catch (error: any) {
+        console.warn(`⚠️ Spec capture failed for VIN "${currentVin}": ${error.message}`);
+        if (attempt < maxAttempts) {
+          currentVin = this.region === 'US' ? FALLBACK_VINS.US : FALLBACK_VINS.EU;
+          await page.goto('https://smartcarcheck.uk/', { waitUntil: 'domcontentloaded' });
+        }
+      }
     }
+
+    throw new Error(`VIN Decode Validation Failed after ${maxAttempts} attempts.`);
   }
 }

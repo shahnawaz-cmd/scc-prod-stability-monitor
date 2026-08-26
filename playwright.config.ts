@@ -11,12 +11,12 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 export default defineConfig({
   testDir: './tests',
 
-  /* Maximum time one test can run (90s in CI, 60s locally) */
-  timeout: process.env.CI ? 90000 : 60000,
+  /* Maximum time one test can run (60s in CI, 45s locally) */
+  timeout: process.env.CI ? 60000 : 45000,
 
   /* Assertion timeout configuration */
   expect: {
-    timeout: 15000,
+    timeout: 10000,
   },
 
   /* Run tests in files in parallel */
@@ -25,11 +25,11 @@ export default defineConfig({
   /* Fail the build on CI if test.only was left in code */
   forbidOnly: !!process.env.CI,
 
-  /* Retries in CI */
-  retries: process.env.CI ? 2 : 0,
+  /* Retries in CI (1 retry to avoid multiplier effect) */
+  retries: process.env.CI ? 1 : 0,
 
-  /* Worker threads */
-  workers: process.env.CI ? 4 : undefined,
+  /* Worker threads (set to 2 for both local and CI stability) */
+  workers: 2,
 
   /* Reporter config */
   reporter: process.env.CI ? [['blob']] : [
@@ -39,11 +39,11 @@ export default defineConfig({
 
   /* Shared settings */
   use: {
-    /* Maximum navigation timeout for page.goto / redirects (45s in CI) */
-    navigationTimeout: process.env.CI ? 45000 : 30000,
+    /* Maximum navigation timeout for page.goto / redirects */
+    navigationTimeout: 45000,
 
-    /* Maximum action timeout for click/fill operations (20s in CI) */
-    actionTimeout: process.env.CI ? 20000 : 10000,
+    /* Maximum action timeout for click/fill operations */
+    actionTimeout: 20000,
 
     /* Artifact recording settings for debugging failures */
     trace: 'retain-on-failure',       // Collect full trace on test failure

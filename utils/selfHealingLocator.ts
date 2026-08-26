@@ -21,35 +21,75 @@ export async function locateInputWithHealing(
   const baseTimeout = options.timeout || (isSlowNetwork ? 10000 : 4000);
   const strategyTimeout = options.strategyTimeout || Math.max(1500, Math.floor(baseTimeout / 3));
 
-  const strategies: (() => Locator)[] = [
-    () => page.getByRole('textbox', { name: labelText }).first(),
-    () => page.getByPlaceholder(labelText).first(),
-    () => page.getByLabel(labelText).first(),
-    () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')).first(),
-    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page).first() : page.locator(sel).first()))
+  const rawStrategies: (() => Locator)[] = [
+    () => page.getByRole('textbox', { name: new RegExp(labelText, 'i') }),
+    () => page.getByPlaceholder(new RegExp(labelText, 'i')),
+    () => page.getByLabel(new RegExp(labelText, 'i')),
+    () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')),
+    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page) : page.locator(sel)))
   ];
 
-  for (let i = 0; i < strategies.length; i++) {
-    const getLocator = strategies[i];
+  // Pass 1: Look for currently VISIBLE elements first (crucial for responsive desktop/mobile DOM duplicates)
+  for (let i = 0; i < rawStrategies.length; i++) {
     try {
-      const locator = getLocator();
-      const isVisible = await locator.isVisible({ timeout: strategyTimeout }).catch(() => false);
+      const loc = rawStrategies[i]().locator('visible=true').first();
+      const isVisible = await loc.isVisible({ timeout: strategyTimeout }).catch(() => false);
       if (isVisible) {
-        console.log(`✅ [Self-Healing Input] Located field "${labelText}" using strategy #${i + 1}`);
-        return locator;
+        console.log(`✅ [Self-Healing Input] Located visible field "${labelText}" using strategy #${i + 1}`);
+        return loc;
       }
-    } catch (e) {
-      // Continue to next strategy
-    }
+    } catch (e) {}
   }
 
-  // If accessibility locators unverified, try first valid fallback selector
+  // Pass 2: Fallback to first matched element
+  for (let i = 0; i < rawStrategies.length; i++) {
+    try {
+      const loc = rawStrategies[i]().first();
+      const isVisible = await loc.isVisible({ timeout: 1000 }).catch(() => false);
+      if (isVisible) {
+        return loc;
+      }
+    } catch (e) {}
+  }
+
+  // Final fallback
   if (fallbackSelectors.length > 0) {
     const sel = fallbackSelectors[0];
     return typeof sel === 'function' ? sel(page).first() : page.locator(sel).first();
   }
 
-  return strategies[0]();
+  return rawStrategies[0]().first();
+}
+
+/**
+ * Fast and resilient input helper for Desktop Chrome & Mobile Safari.
+ * Combines self-healing visible field location with instant fill and native event dispatching.
+ */
+export async function fastInputWithHealing(
+  page: Page,
+  labelText: string,
+  value: string,
+  fallbackSelectors: (string | ((page: Page) => Locator))[] = [],
+  options: SelfHealingOptions = {}
+): Promise<Locator> {
+  const input = await locateInputWithHealing(page, labelText, fallbackSelectors, options);
+
+  try {
+    await input.scrollIntoViewIfNeeded().catch(() => {});
+    await input.fill(value);
+    await input.dispatchEvent('input').catch(() => {});
+    await input.dispatchEvent('change').catch(() => {});
+  } catch (err) {
+    // Ultra-fast JS evaluate fallback for Mobile Safari / WebKit DOM animations
+    await input.evaluate((el: HTMLInputElement, val: string) => {
+      el.focus();
+      el.value = val;
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }, value).catch(() => {});
+  }
+
+  return input;
 }
 
 /**
@@ -65,26 +105,35 @@ export async function locateElementWithHealing(
   const baseTimeout = options.timeout || (isSlowNetwork ? 10000 : 4000);
   const strategyTimeout = options.strategyTimeout || Math.max(1500, Math.floor(baseTimeout / 3));
 
-  const strategies: (() => Locator)[] = [
-    () => page.getByRole('tab', { name: labelText }).first(),
-    () => page.getByRole('button', { name: labelText }).first(),
-    () => page.locator(`text="${labelText}"`).first(),
-    () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')).first(),
-    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page).first() : page.locator(sel).first()))
+  const rawStrategies: (() => Locator)[] = [
+    () => page.getByRole('tab', { name: new RegExp(labelText, 'i') }),
+    () => page.getByRole('button', { name: new RegExp(labelText, 'i') }),
+    () => page.locator(`text=${labelText}`),
+    () => page.getByTestId(labelText.toLowerCase().replace(/\s+/g, '-')),
+    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page) : page.locator(sel)))
   ];
 
-  for (let i = 0; i < strategies.length; i++) {
-    const getLocator = strategies[i];
+  // Pass 1: Look for VISIBLE elements first
+  for (let i = 0; i < rawStrategies.length; i++) {
     try {
-      const locator = getLocator();
-      const isVisible = await locator.isVisible({ timeout: strategyTimeout }).catch(() => false);
+      const loc = rawStrategies[i]().locator('visible=true').first();
+      const isVisible = await loc.isVisible({ timeout: strategyTimeout }).catch(() => false);
       if (isVisible) {
-        console.log(`✅ [Self-Healing] Located element "${labelText}" using strategy #${i + 1}`);
-        return locator;
+        console.log(`✅ [Self-Healing] Located visible element "${labelText}" using strategy #${i + 1}`);
+        return loc;
       }
-    } catch (e) {
-      // Continue next strategy
-    }
+    } catch (e) {}
+  }
+
+  // Pass 2: Fallback
+  for (let i = 0; i < rawStrategies.length; i++) {
+    try {
+      const loc = rawStrategies[i]().first();
+      const isVisible = await loc.isVisible({ timeout: 1000 }).catch(() => false);
+      if (isVisible) {
+        return loc;
+      }
+    } catch (e) {}
   }
 
   if (fallbackSelectors.length > 0) {
@@ -92,7 +141,7 @@ export async function locateElementWithHealing(
     return typeof sel === 'function' ? sel(page).first() : page.locator(sel).first();
   }
 
-  return strategies[0]();
+  return rawStrategies[0]().first();
 }
 
 /**
@@ -104,27 +153,38 @@ export async function clickWithHealing(
   fallbackSelectors: (string | ((page: Page) => Locator))[] = [],
   options: SelfHealingOptions = {}
 ): Promise<void> {
-  const strategies: (() => Locator)[] = [
-    () => page.getByRole('button', { name: buttonTextTextOrLabel }).first(),
-    () => page.locator(`text="${buttonTextTextOrLabel}"`).first(),
-    () => page.getByTestId(buttonTextTextOrLabel.toLowerCase().replace(/\s+/g, '-')).first(),
-    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page).first() : page.locator(sel).first()))
+  const rawStrategies: (() => Locator)[] = [
+    () => page.getByRole('button', { name: new RegExp(buttonTextTextOrLabel, 'i') }),
+    () => page.locator(`text=${buttonTextTextOrLabel}`),
+    () => page.getByTestId(buttonTextTextOrLabel.toLowerCase().replace(/\s+/g, '-')),
+    ...fallbackSelectors.map(sel => () => (typeof sel === 'function' ? sel(page) : page.locator(sel)))
   ];
 
   const strategyTimeout = options.strategyTimeout || 3000;
 
-  for (let i = 0; i < strategies.length; i++) {
+  // Pass 1: Try visible match first
+  for (let i = 0; i < rawStrategies.length; i++) {
     try {
-      const locator = strategies[i]();
-      const isVisible = await locator.isVisible({ timeout: strategyTimeout }).catch(() => false);
+      const loc = rawStrategies[i]().locator('visible=true').first();
+      const isVisible = await loc.isVisible({ timeout: strategyTimeout }).catch(() => false);
       if (isVisible) {
         console.log(`✅ [Self-Healing Click] Located button "${buttonTextTextOrLabel}" using strategy #${i + 1}`);
-        await locator.click();
+        await loc.click({ force: true });
         return;
       }
-    } catch (e) {
-      // Continue next strategy
-    }
+    } catch (e) {}
+  }
+
+  // Pass 2: Regular click
+  for (let i = 0; i < rawStrategies.length; i++) {
+    try {
+      const loc = rawStrategies[i]().first();
+      const isVisible = await loc.isVisible({ timeout: 1000 }).catch(() => false);
+      if (isVisible) {
+        await loc.click({ force: true });
+        return;
+      }
+    } catch (e) {}
   }
 
   if (fallbackSelectors.length > 0) {
@@ -134,5 +194,5 @@ export async function clickWithHealing(
     return;
   }
 
-  await strategies[0]().click();
+  await rawStrategies[0]().first().click({ force: true });
 }
