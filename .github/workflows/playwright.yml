@@ -95,7 +95,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: blob-report-${{ matrix.project }}
+        name: blob-report-${{ matrix.project == 'chromium' && 'chromium' || 'mobile-safari' }}
         path: blob-report/
         retention-days: 1
 
@@ -115,6 +115,7 @@ jobs:
         with:
           pattern: blob-report-*
           path: all-blob-reports
+          merge-multiple: true
 
       - name: Merge Reports
         run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
@@ -146,6 +147,8 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
+          force_orphan: true
