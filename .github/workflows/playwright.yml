@@ -99,6 +99,14 @@ jobs:
         path: test-results/
         retention-days: 3
 
+    - name: Upload Allure Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: allure-results-${{ matrix.project == 'chromium' && 'chromium' || (matrix.project == 'Mobile Safari' && 'mobile-safari' || 'mobile-chrome') }}
+        path: allure-results/
+        retention-days: 1
+
     - name: Upload Blob Report
       uses: actions/upload-artifact@v4
       if: always()
@@ -128,6 +136,36 @@ jobs:
       - name: Merge Reports
         run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
 
+      - name: Download all allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: all-allure-results
+          merge-multiple: true
+
+      - name: Load Allure Report History from gh-pages
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages-history
+
+      - name: Build Allure Report with Historical Trends
+        uses: simple-elf/allure-report-action@v1.9
+        if: always()
+        id: allure-report
+        with:
+          allure_results: all-allure-results
+          allure_history: allure-history
+          keep_reports: 25
+
+      - name: Copy Playwright HTML Report into Publish Directory
+        if: always()
+        run: |
+          mkdir -p allure-history/playwright
+          cp -rf ./playwright-report/* allure-history/playwright/ || true
+
       - name: Automated GitHub Issue Manager (Create/Close Issues)
         if: always()
         run: node scripts/manage-issues.js
@@ -153,10 +191,10 @@ jobs:
           GITHUB_EVENT: ${{ github.event_name }}
           BASE_URL: 'https://smartcarcheck.uk'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          force_orphan: true
+          publish_dir: allure-history
+          force_orphan: false

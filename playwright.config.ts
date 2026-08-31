@@ -32,10 +32,21 @@ export default defineConfig({
   workers: 2,
 
   /* Reporter config */
-  reporter: process.env.CI ? [['blob']] : [
-    ['html', { open: 'never' }],
+  reporter: [
+    ['list'],
     ['json', { outputFile: 'results.json' }],
-    ['list']
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['allure-playwright', {
+      outputFolder: 'allure-results',
+      detail: true,
+      suiteTitle: true,
+      environmentInfo: {
+        Environment: 'Production',
+        Base_URL: process.env.BASE_URL || 'https://smartcarcheck.uk/',
+        Platform: process.platform,
+      },
+    }],
+    ...(process.env.CI ? [['blob'] as const] : [])
   ],
 
   /* Shared settings */

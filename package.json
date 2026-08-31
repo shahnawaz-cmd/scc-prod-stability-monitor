@@ -7,7 +7,10 @@
     "test": "npx playwright test",
     "heal:prod": "node scripts/agentic-healer-ci.js",
     "heal:ci": "node scripts/agentic-healer-ci.js",
-    "manage-issues": "node scripts/manage-issues.js"
+    "manage-issues": "node scripts/manage-issues.js",
+    "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
+    "allure:open": "allure open ./allure-report",
+    "allure:serve": "allure serve ./allure-results"
   },
   "keywords": [],
   "type": "commonjs",
@@ -15,6 +18,8 @@
     "@playwright/test": "^1.62.1",
     "@types/mongodb": "^4.0.6",
     "@types/node": "^26.1.2",
+    "allure-commandline": "^2.43.0",
+    "allure-playwright": "^3.11.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {

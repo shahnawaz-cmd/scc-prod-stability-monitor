@@ -9,4 +9,7 @@ node_modules/
 results.json
 .ai-healed.json
 /gh-pages/
+/allure-results/
+/allure-report/
+/allure-history/
 .env

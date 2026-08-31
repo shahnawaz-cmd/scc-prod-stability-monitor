@@ -134,8 +134,8 @@ const runUrl = `${GITHUB_SERVER}/${GITHUB_REPO}/actions/runs/${GITHUB_RUN}`;
 const owner = GITHUB_REPO ? GITHUB_REPO.split('/')[0] : '';
 const repoName = GITHUB_REPO ? GITHUB_REPO.split('/')[1] : '';
 
-const projectFolder = MATRIX_PROJECT ? MATRIX_PROJECT.replace(' ', '%20') + '/' : '';
-const reportUrl = REPORT_URL || ((owner && repoName) ? `https://${owner}.github.io/${repoName}/${projectFolder}` : '');
+const allureUrl = (owner && repoName) ? `https://${owner}.github.io/${repoName}/` : '';
+const playwrightUrl = (owner && repoName) ? `https://${owner}.github.io/${repoName}/playwright/` : '';
 
 const isSuccess = failedCount === 0 && (passedCount > 0 || flakyCount > 0);
 const statusEmoji = isSuccess ? '✅' : '❌';
@@ -174,7 +174,8 @@ const payload = {
             text: `*Environment:* \`${env}\` (${site})\n` +
                   `*Base URL:* <${BASE_URL}|${BASE_URL || 'N/A'}>\n` +
                   `*Workflow Run:* <${runUrl}|View Workflow Run 🛠️>\n` +
-                  (reportUrl ? `*HTML Report:* <${reportUrl}|View HTML Report 📊>\n` : '') +
+                  (allureUrl ? `*Allure Analytics:* <${allureUrl}|View Allure Visual Dashboard 📊>\n` : '') +
+                  (playwrightUrl ? `*Playwright Report:* <${playwrightUrl}|View Playwright HTML Report 🎭>\n` : '') +
                   `*Trigger Details:* \`${GITHUB_ACTOR || 'N/A'}\` via \`${GITHUB_EVENT || 'N/A'}\` (\`${GITHUB_REF || 'N/A'}\`)`
           }
         },
