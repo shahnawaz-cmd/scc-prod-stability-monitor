@@ -126,6 +126,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup Java Runtime for Allure
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Download all blob reports
         uses: actions/download-artifact@v4
         with:
@@ -133,7 +139,7 @@ jobs:
           path: all-blob-reports
           merge-multiple: true
 
-      - name: Merge Reports
+      - name: Merge Playwright Reports
         run: npx playwright merge-reports --config=merge.config.ts ./all-blob-reports
 
       - name: Download all allure results
@@ -143,28 +149,36 @@ jobs:
           path: all-allure-results
           merge-multiple: true
 
-      - name: Load Allure Report History from gh-pages
+      - name: Checkout gh-pages for History Preservation
         uses: actions/checkout@v4
         if: always()
         continue-on-error: true
         with:
           ref: gh-pages
-          path: gh-pages-history
+          path: gh-pages-dir
 
       - name: Build Allure Report with Historical Trends
-        uses: simple-elf/allure-report-action@v1.9
-        if: always()
-        id: allure-report
-        with:
-          allure_results: all-allure-results
-          allure_history: allure-history
-          keep_reports: 25
-
-      - name: Copy Playwright HTML Report into Publish Directory
         if: always()
         run: |
-          mkdir -p allure-history/playwright
-          cp -rf ./playwright-report/* allure-history/playwright/ || true
+          # 1. Copy previous history from gh-pages if available
+          if [ -d "gh-pages-dir/history" ]; then
+            echo "Copying previous Allure history..."
+            mkdir -p all-allure-results/history
+            cp -rf gh-pages-dir/history/* all-allure-results/history/ || true
+          fi
+
+          # 2. Generate new Allure report
+          npx allure generate all-allure-results --clean -o allure-report-out
+
+          # 3. Create deploy folder
+          mkdir -p gh-deploy
+          cp -rf allure-report-out/* gh-deploy/
+
+          # 4. Copy Playwright HTML Report into subfolder
+          mkdir -p gh-deploy/playwright
+          if [ -d "playwright-report" ]; then
+            cp -rf playwright-report/* gh-deploy/playwright/
+          fi
 
       - name: Automated GitHub Issue Manager (Create/Close Issues)
         if: always()
@@ -191,10 +205,10 @@ jobs:
           GITHUB_EVENT: ${{ github.event_name }}
           BASE_URL: 'https://smartcarcheck.uk'
 
-      - name: Deploy Allure Report to GitHub Pages
+      - name: Deploy Both Reports to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-history
+          publish_dir: ./gh-deploy
           force_orphan: false
