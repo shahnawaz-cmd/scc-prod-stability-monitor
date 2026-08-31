@@ -1,0 +1,24 @@
+[Attempt 1/3] Starting REG Decode flow with REG: WF66WUJ
+Submitting REG "WF66WUJ" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2016
+Make
+MERCEDES BENZ
+Model
+A-CLASS A 180 D AMG LINE
+Colour
+Black
+Number of cylinders
+4
+Fuel type
+Diesel
+Engine displacement
+1.461 cc
+Gears
+7 speed automatic
+Vehicle First Registered Date
+N/A
+✅ REG "WF66WUJ" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
