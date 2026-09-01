@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "WVGCV3AX6DW578470": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

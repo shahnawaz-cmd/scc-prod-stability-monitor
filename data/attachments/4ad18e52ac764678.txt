@@ -1,0 +1,24 @@
+[Attempt 1/3] Starting REG Decode flow with REG: YA70VJK
+Submitting REG "YA70VJK" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2021
+Make
+FORD
+Model
+KUGA ST-LINE ED EBLUE 4X4 A
+Colour
+Silver
+Number of cylinders
+4
+Fuel type
+Diesel
+Engine displacement
+1.995 cc
+Body Type
+5 Door Hatchback
+Gears
+8 speed automatic
+✅ REG "YA70VJK" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

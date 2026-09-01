@@ -1,0 +1,25 @@
+🛡️ [Smart Wait] Cookie/Popup banner detected ("button[aria-label*="close" i]"). Dismissing...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 5YJ3E1EAXPF559847
+[Attempt 1/3] Starting VIN Decode flow for US...
+✅ [Self-Healing Input] Located visible field "Enter VIN" using strategy #10
+Submitting VIN "5YJ3E1EAXPF559847" and waiting for preview page redirect...
+✅ Using VIN: 1GCCS139898128167
+[Attempt 2/3] Starting VIN Decode flow for US...
+Submitting VIN "1GCCS139898128167" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2009 CHEVROLET COLORADO LT
+
+VIN: 1GCCS139898128167
+
+Records found
+MANUFACTURER
+CHEVROLET
+✅ VIN "1GCCS139898128167" decoded successfully. Vehicle: 2009 CHEVROLET COLORADO LT
+Starting Preview to Checkout flow...
+::add-mask::hommy.stress123+2onl8i@gmail.com
+✅ Email entered: hommy.stress123+2onl8i@gmail.com
+✅ Successfully Navigated to checkout: https://smartcarcheck.uk/members/checkout?type=premium&data=eyJlbWFpbCI6ImhvbW15LnN0cmVzczEyMysyb25sOGlAZ21haWwuY29tIiwidmluIjoiSWpGSFEwTlRNVE01T0RrNE1USTRNVFkzSWc9PSIsInYiOiJJakl3TURrZ1EwaEZWbEpQVEVWVUlFTlBURTlTUVVSUElFeFVJZz09IiwiY29kZSI6IlVLUDEiLCJjdXJyZW5jeSI6IkdCUCIsInByaWNlIjoxNC45OSwicGVyY2VudGFnZSI6MSwicGhvbmUiOiIiLCJwbGFuIjoiSW50Y0ltTnZaR1ZjSWpwY0lsVkxVREZjSWl4Y0ltNWhiV1ZjSWpwY0lsQnlaVzFwZFcwZ1UybHNkbVZ5WENJc1hDSjBlWEJsWENJNlhDSndjbVZ0YVhWdFhDSXNYQ0p3Y21salpWd2lPakUwTGprNUxGd2libTl6WENJNlhDSXhYQ0lzWENKamRYSnlaVzVqZVY5amIyUmxYQ0k2WENKSFFsQmNJaXhjSW1OMWNuSmxibU41WDNOcFoyNWNJanBjSXNLalhDSXNYQ0pqYjI1MlpYSnphVzl1WDNKaGRHVmNJam94TEZ3aVozVnRjbTloWkZ3aU9sd2lYQ0o5SWc9PSJ9&wpPage=homepage&landing=normal
