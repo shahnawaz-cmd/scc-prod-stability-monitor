@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "3FA6P0SU7GR320812": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "5YJ3E1EAXPF559847": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================

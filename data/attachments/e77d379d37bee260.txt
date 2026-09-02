@@ -1,9 +1,0 @@
-⚠️ Attempt 1 spec extraction failed for REG "WF66WUJ": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
-⚠️ Attempt 2 spec extraction failed for REG "SD21ZWL": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-  navigated to "https://smartcarcheck.uk/"
-============================================================
