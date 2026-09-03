@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "1A8HX58N58F107249": locator.waitFor: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('.vehicle-specifications, .specifications, section, .preview-container, div[class*="spec"]').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details|Specs|Records found/i }).filter({ visible: true }).first() to be visible
+

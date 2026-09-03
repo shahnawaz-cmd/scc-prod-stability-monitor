@@ -1,0 +1,31 @@
+[Attempt 1/3] Starting REG Decode flow with REG: OE72DMU
+Submitting REG "OE72DMU" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "OE72DMU" -> "AV22UDS"
+[Attempt 2/3] Starting REG Decode flow with REG: AV22UDS
+Submitting REG "AV22UDS" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "AV22UDS" -> "AK59ZVR"
+[Attempt 3/3] Starting REG Decode flow with REG: AK59ZVR
+Submitting REG "AK59ZVR" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2009
+Make
+FORD
+Model
+GALAXY GHIA TDCI
+Colour
+Silver
+Number of cylinders
+4
+Fuel type
+Diesel
+Engine displacement
+1.997 cc
+Gears
+6 speed Manual
+Vehicle First Registered Date
+N/A
+Get premium report to see the full date
+✅ REG "AK59ZVR" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

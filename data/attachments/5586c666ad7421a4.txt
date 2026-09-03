@@ -1,0 +1,27 @@
+[Attempt 1/3] Starting REG Decode flow with REG: C230KBW
+Submitting REG "C230KBW" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "C230KBW" -> "LL20YXZ"
+[Attempt 2/3] Starting REG Decode flow with REG: LL20YXZ
+Submitting REG "LL20YXZ" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2020
+Make
+FORD
+Model
+KUGA ST-LINE FIRST ED E-BLUE A
+Colour
+Blue
+Number of cylinders
+4
+Fuel type
+Diesel
+Engine displacement
+1.499 cc
+Body Type
+5 Door Hatchback
+Gears
+8 speed automatic
+✅ REG "LL20YXZ" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

@@ -1,0 +1,20 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 1A8HX58N58F107249
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "1A8HX58N58F107249" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+✅ Using VIN: 1GCCS139898128167
+[Attempt 2/3] Starting VIN Decode flow for US...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+Submitting VIN "1GCCS139898128167" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2009 CHEVROLET COLORADO LT
+
+VIN: 1GCCS139898128167
+
+Records found
+MANUFACTURER
+CHEVROLET
+✅ VIN "1GCCS139898128167" decoded successfully. Vehicle: 2009 CHEVROLET COLORADO LT
+Test Completed. Vehicle Name: 2009 CHEVROLET COLORADO LT

@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "4T1BF1FK0FU908368": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
