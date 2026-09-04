@@ -1,0 +1,22 @@
+[Attempt 1/3] Starting REG Decode flow with REG: CP66WLC
+Submitting REG "CP66WLC" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2017
+Make
+FORD
+Model
+FIESTA ST-LINE RED EDITION
+Colour
+Red
+Number of cylinders
+3
+Fuel type
+Petrol
+Body Type
+3 Door Hatchback
+Gears
+5 speed Manual
+✅ REG "CP66WLC" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

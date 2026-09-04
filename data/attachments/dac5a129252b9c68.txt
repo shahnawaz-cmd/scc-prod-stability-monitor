@@ -1,0 +1,22 @@
+[Attempt 1/3] Starting REG Decode flow with REG: MV69XDA
+Submitting REG "MV69XDA" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2019
+Make
+KIA
+Model
+Sportage 2 ISG
+Colour
+Black
+Number of cylinders
+4
+Fuel type
+Petrol
+Engine displacement
+1.591 cc
+Gears
+6 speed Manual
+✅ REG "MV69XDA" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

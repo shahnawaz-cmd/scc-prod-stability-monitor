@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "2T3ZF4DVXCW118060": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

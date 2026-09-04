@@ -1,8 +1,0 @@
-⚠️ Attempt 1 spec extraction failed for REG "OE72DMU": locator.waitFor: Timeout 15000ms exceeded.
-Call log:
-  - waiting for locator('.vehicle-specifications, .specifications, section, .preview-container, div[class*="spec"]').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details/i }).filter({ visible: true }).first() to be visible
-
-⚠️ Attempt 2 spec extraction failed for REG "AV22UDS": locator.waitFor: Timeout 15000ms exceeded.
-Call log:
-  - waiting for locator('.vehicle-specifications, .specifications, section, .preview-container, div[class*="spec"]').filter({ hasText: /Vehicle Specifications|Specifications|Vehicle Details/i }).filter({ visible: true }).first() to be visible
-

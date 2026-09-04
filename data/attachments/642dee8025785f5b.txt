@@ -1,0 +1,4 @@
+⚠️ Attempt 1 spec extraction failed for REG "HT65KKJ": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
