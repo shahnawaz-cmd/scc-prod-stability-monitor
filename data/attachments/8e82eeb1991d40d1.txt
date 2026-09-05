@@ -1,0 +1,28 @@
+[Attempt 1/3] Starting REG Decode flow with REG: WF66WUJ
+🛡️ [Smart Wait] Cookie/Popup banner detected ("button[aria-label*="close" i]"). Dismissing...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
+Submitting REG "WF66WUJ" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "WF66WUJ" -> "MT66TTF"
+[Attempt 2/3] Starting REG Decode flow with REG: MT66TTF
+Submitting REG "MT66TTF" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2016
+Make
+Volkswagen
+Model
+Tiguan SE NAV TDI BMT 4motion
+Colour
+White
+Number of cylinders
+4
+Fuel type
+Diesel
+Engine displacement
+1.968 cc
+Gears
+6 speed Manual
+✅ REG "MT66TTF" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

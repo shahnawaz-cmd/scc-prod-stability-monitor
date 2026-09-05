@@ -1,0 +1,6 @@
+⚠️ Attempt 1 spec extraction failed for REG "YL56YUX": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+  navigated to "https://smartcarcheck.uk/"
+  navigated to "https://smartcarcheck.uk/"
+============================================================

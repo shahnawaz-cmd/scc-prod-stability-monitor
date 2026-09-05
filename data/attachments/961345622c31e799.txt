@@ -1,0 +1,30 @@
+[Attempt 1/3] Starting REG Decode flow with REG: YL56YUX
+Submitting REG "YL56YUX" and waiting for preview page redirect...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "YL56YUX" -> "BX69KDN"
+[Attempt 2/3] Starting REG Decode flow with REG: BX69KDN
+Submitting REG "BX69KDN" and waiting for preview page redirect...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+Section Data:
+ Vehicle Specifications
+Year
+2019
+Make
+ABARTH
+Model
+595
+Colour
+Grey
+Number of cylinders
+4
+Fuel type
+Petrol
+Engine displacement
+1.368 cc
+Gears
+5 speed Manual
+Vehicle First Registered Date
+N/A
+✅ REG "BX69KDN" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

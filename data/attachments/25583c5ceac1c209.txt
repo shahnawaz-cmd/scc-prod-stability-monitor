@@ -1,0 +1,5 @@
+⚠️ [Condition Triggered: TIMEOUT] VIN "116356W167704"
+⚠️ Spec capture failed for VIN "116356W167704": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

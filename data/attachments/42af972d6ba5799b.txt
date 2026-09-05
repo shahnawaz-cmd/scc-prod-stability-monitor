@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "3KPF24AD2RE833512": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================

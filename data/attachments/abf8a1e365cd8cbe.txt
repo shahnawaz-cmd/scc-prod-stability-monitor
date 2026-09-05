@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "LCEPBJL59T6000389": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

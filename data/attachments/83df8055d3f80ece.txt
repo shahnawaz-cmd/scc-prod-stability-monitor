@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "1G1PC5SB3D7286241": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
