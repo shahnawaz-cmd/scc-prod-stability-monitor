@@ -1,0 +1,6 @@
+⚠️ [Condition Triggered: TIMEOUT] VIN "JTHBA1D22G5031494"
+⚠️ [Condition Triggered: TIMEOUT] VIN "JTHBA1D22G5031494"
+⚠️ Spec capture failed for VIN "JTHBA1D22G5031494": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
