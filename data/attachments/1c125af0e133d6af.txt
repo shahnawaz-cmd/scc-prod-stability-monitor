@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "1N4AL3AP9GN333342": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
