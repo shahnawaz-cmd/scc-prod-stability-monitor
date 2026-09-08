@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "3TMLB5JN7RM010372": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================

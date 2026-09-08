@@ -1,0 +1,18 @@
+[Attempt 1/3] Starting REG Decode flow with REG: FR11YGU
+Submitting REG "FR11YGU" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2011
+Make
+SMART
+Model
+FORTWO PULSE CDI AUTO PASSION
+Colour
+Black
+Fuel type
+Diesel
+Engine displacement
+799 cc
+✅ REG "FR11YGU" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
