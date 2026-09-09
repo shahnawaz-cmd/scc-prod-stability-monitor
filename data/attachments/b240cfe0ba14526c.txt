@@ -1,12 +1,12 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 1GCEK29019Z223977
+✅ Fetched VIN from Mongo: 1C4HJWFG4DL646668
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "1GCEK29019Z223977" and waiting for preview page redirect...
+Submitting VIN "1C4HJWFG4DL646668" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2009 CHEVROLET SILVERADO
+ 2013 JEEP WRANGLER UNLIMITED
 
-VIN: 1GCEK29019Z223977
+VIN: 1C4HJWFG4DL646668
 
 Records found
 FUEL TYPE
@@ -14,12 +14,12 @@ Flexible
 DRIVE TYPE
 4RD
 SERIES
-K1500 LT
+RUBICON
 BODY TYPE
-4 Door PICKUP Extended Cab
+4 Door SPORT UTILITY VEHICLE Sport Utility
 MANUFACTURER
-General Motors
+Chrysler Group LLC
 COUNTRY
 United States
-✅ VIN "1GCEK29019Z223977" decoded successfully. Vehicle: 2009 CHEVROLET SILVERADO
-Test Completed. Vehicle Name: 2009 CHEVROLET SILVERADO
+✅ VIN "1C4HJWFG4DL646668" decoded successfully. Vehicle: 2013 JEEP WRANGLER UNLIMITED
+Test Completed. Vehicle Name: 2013 JEEP WRANGLER UNLIMITED
