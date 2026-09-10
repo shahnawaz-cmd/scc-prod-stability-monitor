@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 1N4AL21EX8N513827
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "1N4AL21EX8N513827" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2008 NISSAN ALTIMA
+
+VIN: 1N4AL21EX8N513827
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+FWD
+SERIES
+2.5
+BODY TYPE
+4 Door SEDAN
+MANUFACTURER
+Nissan
+COUNTRY
+United States
+✅ VIN "1N4AL21EX8N513827" decoded successfully. Vehicle: 2008 NISSAN ALTIMA
+Test Completed. Vehicle Name: 2008 NISSAN ALTIMA
