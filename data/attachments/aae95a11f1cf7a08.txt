@@ -1,0 +1,24 @@
+[Attempt 1/3] Starting REG Decode flow with REG: YF20YKU
+🛡️ [Smart Wait] Cookie/Popup banner detected ("button[aria-label*="close" i]"). Dismissing...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
+Submitting REG "YF20YKU" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "YF20YKU" -> "T283KLE"
+[Attempt 2/3] Starting REG Decode flow with REG: T283KLE
+Submitting REG "T283KLE" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+1999
+Make
+CADILLAC
+Model
+SEVILLE STS V8 AUTO
+Colour
+Red
+Fuel type
+Petrol
+Engine displacement
+4.565 cc
+✅ REG "T283KLE" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
