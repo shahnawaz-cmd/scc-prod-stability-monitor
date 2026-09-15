@@ -1,0 +1,30 @@
+[Attempt 1/3] Starting REG Decode flow with REG: WF66WUJ
+🛡️ [Smart Wait] Cookie/Popup banner detected ("button[aria-label*="close" i]"). Dismissing...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
+Submitting REG "WF66WUJ" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "WF66WUJ" -> "LG65WPN"
+[Attempt 2/3] Starting REG Decode flow with REG: LG65WPN
+Submitting REG "LG65WPN" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "LG65WPN" -> "RA65CWV"
+[Attempt 3/3] Starting REG Decode flow with REG: RA65CWV
+Submitting REG "RA65CWV" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2015
+Make
+HONDA
+Model
+CR-V EX I-VTEC AUTO
+Colour
+Black
+Fuel type
+Petrol
+Vehicle First Registered Date
+N/A
+✅ REG "RA65CWV" decoded successfully. Vehicle: Vehicle Specifications
+Starting Exit Intent Trigger flow...
+✅ Exit Intent Banner triggered successfully
+URL after applying discount: https://smartcarcheck.uk/members/preview?type=vhr&utm_details=&traffic_source=Direct--null&regNo=RA65CWV&wpPage=homepage&offer=preview10
+✅ Discount applied! offer=preview10 is in the URL.

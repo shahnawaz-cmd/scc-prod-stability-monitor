@@ -1,5 +1,0 @@
-⚠️ [Condition Triggered: TIMEOUT] VIN "KL79MSSL5PB142662"
-⚠️ Spec capture failed for VIN "KL79MSSL5PB142662": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
