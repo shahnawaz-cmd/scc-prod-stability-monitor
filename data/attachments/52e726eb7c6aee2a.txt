@@ -1,25 +1,25 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 1FT7W2B67BEC02964
+✅ Fetched VIN from Mongo: WBA7T4C05LCD70937
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "1FT7W2B67BEC02964" and waiting for preview page redirect...
+Submitting VIN "WBA7T4C05LCD70937" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2011 FORD F250
+ 2020 BMW 740
 
-VIN: 1FT7W2B67BEC02964
+VIN: WBA7T4C05LCD70937
 
 Records found
 FUEL TYPE
 Gas
 DRIVE TYPE
-4RD
+AWD
 SERIES
-SUPER DUTY
+XI
 BODY TYPE
-4 Door PICKUP Crew Cab
+4 Door SEDAN
 MANUFACTURER
-Ford
+BMW
 COUNTRY
-United States
-✅ VIN "1FT7W2B67BEC02964" decoded successfully. Vehicle: 2011 FORD F250
-Test Completed. Vehicle Name: 2011 FORD F250
+Germany
+✅ VIN "WBA7T4C05LCD70937" decoded successfully. Vehicle: 2020 BMW 740
+Test Completed. Vehicle Name: 2020 BMW 740

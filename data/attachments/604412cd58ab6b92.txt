@@ -1,16 +1,16 @@
 🔐 [Admin Auth] Navigating to Member Area via Token Login...
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Sampled US VIN from Mongo: 1FTEW1EG5JKE52919
+✅ Sampled US VIN from Mongo: KNDEU2AA9P7378445
 🔘 Selecting "Premium Car Check"...
-📝 Entering VIN "1FTEW1EG5JKE52919"...
+📝 Entering VIN "KNDEU2AA9P7378445"...
 🚀 Submitting report generation via "Check Vehicle"...
 ⏳ Processing vehicle check (report generation takes ~2-2.5 min)... Waiting for redirect to my-reports?region=us...
 📍 Landed URL: https://smartcarcheck.uk/members/my-reports?region=us
-✅ SCC US Report Generation Successfully Landed on my-reports?region=us for VIN: 1FTEW1EG5JKE52919
+✅ SCC US Report Generation Successfully Landed on my-reports?region=us for VIN: KNDEU2AA9P7378445
 📍 Verified Landed Page URL: https://smartcarcheck.uk/members/my-reports?region=us
 --- Test Execution Summary (US) ---
-🚗 Used US VIN: 1FTEW1EG5JKE52919
+🚗 Used US VIN: KNDEU2AA9P7378445
 🔗 Destination URL: https://smartcarcheck.uk/members/my-reports?region=us
 📡 API Status Code: 200
-📦 API Payload: {"reg_no":"1FTEW1EG5JKE52919","type":"uk_premium"}
+📦 API Payload: {"reg_no":"KNDEU2AA9P7378445","type":"uk_premium"}
 📄 API Response Preview: {"status":"success","msg":"Thank you for ordering with Smart Car Check. Your order is processing and the report is generating. You will be redirected to the Report","region":"us","source":"us"}
