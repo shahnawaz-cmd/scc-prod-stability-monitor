@@ -1,28 +1,30 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 1HD1KTC11HB695687
+✅ Fetched VIN from Mongo: 3GCRKSE33AG124552
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "1HD1KTC11HB695687" and waiting for preview page redirect...
+Submitting VIN "3GCRKSE33AG124552" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
-✅ Using VIN: 1HD1KTC11HB695687
+✅ Using VIN: 3GCRKSE33AG124552
 [Attempt 2/3] Starting VIN Decode flow for US...
-Submitting VIN "1HD1KTC11HB695687" and waiting for preview page redirect...
+Submitting VIN "3GCRKSE33AG124552" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2017 HARLEY DAVIDSON FLTRXS
+ 2010 CHEVROLET SILVERADO
 
-VIN: 1HD1KTC11HB695687
+VIN: 3GCRKSE33AG124552
 
 FUEL TYPE
-Gas
+Flexible
+DRIVE TYPE
+4RD
 SERIES
-ROAD GLIDE SPECIAL
+K1500 LT
 BODY TYPE
-TOURING
+4 Door PICKUP Crew Cab
 MANUFACTURER
-Harley-Davidson
+General Motors
 COUNTRY
-United States
-✅ VIN "1HD1KTC11HB695687" decoded successfully. Vehicle: 2017 HARLEY DAVIDSON FLTRXS
-Test Completed. Vehicle Name: 2017 HARLEY DAVIDSON FLTRXS
+Mexico
+✅ VIN "3GCRKSE33AG124552" decoded successfully. Vehicle: 2010 CHEVROLET SILVERADO
+Test Completed. Vehicle Name: 2010 CHEVROLET SILVERADO

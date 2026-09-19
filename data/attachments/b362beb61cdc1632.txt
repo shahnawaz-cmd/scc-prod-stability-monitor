@@ -1,25 +1,25 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: WBA7T4C05LCD70937
+✅ Fetched VIN from Mongo: 1C4GJXAN0PW676941
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "WBA7T4C05LCD70937" and waiting for preview page redirect...
+Submitting VIN "1C4GJXAN0PW676941" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2020 BMW 740
+ 2023 JEEP WRANGLER
 
-VIN: WBA7T4C05LCD70937
+VIN: 1C4GJXAN0PW676941
 
 Records found
 FUEL TYPE
 Gas
 DRIVE TYPE
-AWD
+4RD
 SERIES
-XI
+SPORT
 BODY TYPE
-4 Door SEDAN
+2 Door SPORT UTILITY VEHICLE Sport Utility
 MANUFACTURER
-BMW
+Stellantis
 COUNTRY
-Germany
-✅ VIN "WBA7T4C05LCD70937" decoded successfully. Vehicle: 2020 BMW 740
-Test Completed. Vehicle Name: 2020 BMW 740
+United States
+✅ VIN "1C4GJXAN0PW676941" decoded successfully. Vehicle: 2023 JEEP WRANGLER
+Test Completed. Vehicle Name: 2023 JEEP WRANGLER
