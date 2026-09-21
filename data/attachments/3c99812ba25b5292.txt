@@ -1,30 +1,28 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 2A4RR8DG5BR758745
+✅ Fetched VIN from Mongo: 1J4FY29S4PP214908
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "2A4RR8DG5BR758745" and waiting for preview page redirect...
+Submitting VIN "1J4FY29S4PP214908" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
-✅ Using VIN: 2A4RR8DG5BR758745
+✅ Using VIN: 1J4FY29S4PP214908
 [Attempt 2/3] Starting VIN Decode flow for US...
-Submitting VIN "2A4RR8DG5BR758745" and waiting for preview page redirect...
+Submitting VIN "1J4FY29S4PP214908" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2011 CHRYSLER TOWN & COUNTRY
+ 1993 JEEP WRANGLER / YJ
 
-VIN: 2A4RR8DG5BR758745
+VIN: 1J4FY29S4PP214908
 
 FUEL TYPE
-Flexible
+Gas
 DRIVE TYPE
-FWD
-SERIES
-TOURING L
+4RD
 BODY TYPE
-4 Door VAN PASSENGER Van
+2 Door SPORT UTILITY VEHICLE Sport Utility
 MANUFACTURER
 Chrysler Group LLC
 COUNTRY
-Canada
-✅ VIN "2A4RR8DG5BR758745" decoded successfully. Vehicle: 2011 CHRYSLER TOWN & COUNTRY
-Test Completed. Vehicle Name: 2011 CHRYSLER TOWN & COUNTRY
+United States
+✅ VIN "1J4FY29S4PP214908" decoded successfully. Vehicle: 1993 JEEP WRANGLER / YJ
+Test Completed. Vehicle Name: 1993 JEEP WRANGLER / YJ
