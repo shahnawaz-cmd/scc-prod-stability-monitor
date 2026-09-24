@@ -1,12 +1,12 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 3GCPCSE07DG278681
+✅ Fetched VIN from Mongo: 2C3CCAAG9LH250007
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "3GCPCSE07DG278681" and waiting for preview page redirect...
+Submitting VIN "2C3CCAAG9LH250007" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2013 CHEVROLET SILVERADO
+ 2020 CHRYSLER 300
 
-VIN: 3GCPCSE07DG278681
+VIN: 2C3CCAAG9LH250007
 
 Records found
 FUEL TYPE
@@ -14,12 +14,12 @@ Flexible
 DRIVE TYPE
 RWD
 SERIES
-C1500 LT
+TOURING
 BODY TYPE
-4 Door PICKUP Crew Cab
+4 Door SEDAN
 MANUFACTURER
-General Motors
+FCA
 COUNTRY
-Mexico
-✅ VIN "3GCPCSE07DG278681" decoded successfully. Vehicle: 2013 CHEVROLET SILVERADO
-Test Completed. Vehicle Name: 2013 CHEVROLET SILVERADO
+Canada
+✅ VIN "2C3CCAAG9LH250007" decoded successfully. Vehicle: 2020 CHRYSLER 300
+Test Completed. Vehicle Name: 2020 CHRYSLER 300
