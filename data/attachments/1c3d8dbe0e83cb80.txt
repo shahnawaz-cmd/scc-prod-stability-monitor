@@ -1,0 +1,30 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 1FMJK1JTXLEA65728
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "1FMJK1JTXLEA65728" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: 1FMJK1JTXLEA65728
+[Attempt 2/3] Starting VIN Decode flow for US...
+Submitting VIN "1FMJK1JTXLEA65728" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2020 FORD EXPEDITION
+
+VIN: 1FMJK1JTXLEA65728
+
+FUEL TYPE
+Gas
+DRIVE TYPE
+4RD
+SERIES
+MAX XLT
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+Ford
+COUNTRY
+United States
+✅ VIN "1FMJK1JTXLEA65728" decoded successfully. Vehicle: 2020 FORD EXPEDITION
+Test Completed. Vehicle Name: 2020 FORD EXPEDITION
