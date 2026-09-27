@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "1GNGK26J0WJ350596": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
