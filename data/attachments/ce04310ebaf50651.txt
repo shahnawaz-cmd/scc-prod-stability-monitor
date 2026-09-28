@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: YV4902DZ6C2297826
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "YV4902DZ6C2297826" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2012 VOLVO XC60
+
+VIN: YV4902DZ6C2297826
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+T6
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+Volvo Cars of North America LLC
+COUNTRY
+Belgium
+✅ VIN "YV4902DZ6C2297826" decoded successfully. Vehicle: 2012 VOLVO XC60
+Test Completed. Vehicle Name: 2012 VOLVO XC60

@@ -1,30 +1,30 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: 1N4AL21E89N467979
+✅ Fetched VIN from Mongo: 5NMJFCDE5RH324780
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "1N4AL21E89N467979" and waiting for preview page redirect...
+Submitting VIN "5NMJFCDE5RH324780" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
-✅ Using VIN: 1N4AL21E89N467979
+✅ Using VIN: 5NMJFCDE5RH324780
 [Attempt 2/3] Starting VIN Decode flow for US...
-Submitting VIN "1N4AL21E89N467979" and waiting for preview page redirect...
+Submitting VIN "5NMJFCDE5RH324780" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2009 NISSAN ALTIMA
+ 2024 HYUNDAI TUCSON
 
-VIN: 1N4AL21E89N467979
+VIN: 5NMJFCDE5RH324780
 
 FUEL TYPE
 Gas
 DRIVE TYPE
-FWD
+AWD
 SERIES
-2.5
+SEL
 BODY TYPE
-4 Door SEDAN
+4 Door SPORT UTILITY VEHICLE Sport Utility
 MANUFACTURER
-Nissan
+Hyundai
 COUNTRY
 United States
-✅ VIN "1N4AL21E89N467979" decoded successfully. Vehicle: 2009 NISSAN ALTIMA
-Test Completed. Vehicle Name: 2009 NISSAN ALTIMA
+✅ VIN "5NMJFCDE5RH324780" decoded successfully. Vehicle: 2024 HYUNDAI TUCSON
+Test Completed. Vehicle Name: 2024 HYUNDAI TUCSON
