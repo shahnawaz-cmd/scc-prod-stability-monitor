@@ -1,0 +1,26 @@
+[Attempt 1/3] Starting REG Decode flow with REG: YA66FTX
+Submitting REG "YA66FTX" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2017
+Make
+PEUGEOT
+Model
+2008 ALLURE
+Colour
+Black
+Number of cylinders
+3
+Fuel type
+Petrol
+Engine displacement
+1.200 cc
+Body Type
+5 Door Hatchback
+Gears
+5 speed Manual
+Vehicle First Registered Date
+January 2017
+✅ REG "YA66FTX" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
