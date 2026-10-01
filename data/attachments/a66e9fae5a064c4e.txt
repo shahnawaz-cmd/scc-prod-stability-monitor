@@ -1,0 +1,23 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 5YJSA1E26JF239965
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "5YJSA1E26JF239965" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2018 TESLA MODEL S
+
+VIN: 5YJSA1E26JF239965
+
+Records found
+FUEL TYPE
+Electric
+DRIVE TYPE
+AWD
+BODY TYPE
+4 Door HATCHBACK
+MANUFACTURER
+Tesla Motors Inc.
+COUNTRY
+United States
+✅ VIN "5YJSA1E26JF239965" decoded successfully. Vehicle: 2018 TESLA MODEL S
+Test Completed. Vehicle Name: 2018 TESLA MODEL S
