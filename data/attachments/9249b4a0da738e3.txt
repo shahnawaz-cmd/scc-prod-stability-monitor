@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "1FTBR1C81PKB20135": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: JN1DA31D22T424785
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "JN1DA31D22T424785" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2002 NISSAN MAXIMA
+
+VIN: JN1DA31D22T424785
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+FWD
+SERIES
+GLE
+BODY TYPE
+4 Door SEDAN
+MANUFACTURER
+Nissan
+COUNTRY
+Japan
+✅ VIN "JN1DA31D22T424785" decoded successfully. Vehicle: 2002 NISSAN MAXIMA
+Test Completed. Vehicle Name: 2002 NISSAN MAXIMA
