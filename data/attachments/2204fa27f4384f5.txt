@@ -1,0 +1,36 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 5YFBURHE4GP396239
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "5YFBURHE4GP396239" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: 5YFBURHE4GP396239
+[Attempt 2/3] Starting VIN Decode flow for US...
+Submitting VIN "5YFBURHE4GP396239" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: 5YFBURHE4GP396239
+[Attempt 3/3] Starting VIN Decode flow for US...
+Submitting VIN "5YFBURHE4GP396239" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2016 TOYOTA COROLLA
+
+VIN: 5YFBURHE4GP396239
+
+FUEL TYPE
+Gas
+DRIVE TYPE
+FWD
+SERIES
+L
+BODY TYPE
+4 Door SEDAN
+MANUFACTURER
+Toyota
+COUNTRY
+United States
+✅ VIN "5YFBURHE4GP396239" decoded successfully. Vehicle: 2016 TOYOTA COROLLA
+Test Completed. Vehicle Name: 2016 TOYOTA COROLLA

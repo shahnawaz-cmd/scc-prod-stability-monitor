@@ -1,4 +1,4 @@
-⚠️ Spec capture failed for VIN "1NXBR32E64Z310494": page.waitForURL: Timeout 10000ms exceeded.
+⚠️ Spec capture failed for VIN "4T1BK1EB3GU220976": page.waitForURL: Timeout 10000ms exceeded.
 =========================== logs ===========================
 waiting for navigation until "load"
 ============================================================

@@ -1,12 +1,12 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: KMHD84LF4LU056243
+✅ Fetched VIN from Mongo: 1N4AL3APXHC125628
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "KMHD84LF4LU056243" and waiting for preview page redirect...
+Submitting VIN "1N4AL3APXHC125628" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2020 HYUNDAI ELANTRA
+ 2017 NISSAN ALTIMA
 
-VIN: KMHD84LF4LU056243
+VIN: 1N4AL3APXHC125628
 
 Records found
 FUEL TYPE
@@ -14,12 +14,12 @@ Gas
 DRIVE TYPE
 FWD
 SERIES
-SEL
+2.5
 BODY TYPE
 4 Door SEDAN
 MANUFACTURER
-Hyundai
+Nissan
 COUNTRY
-Korea (South)
-✅ VIN "KMHD84LF4LU056243" decoded successfully. Vehicle: 2020 HYUNDAI ELANTRA
-Test Completed. Vehicle Name: 2020 HYUNDAI ELANTRA
+United States
+✅ VIN "1N4AL3APXHC125628" decoded successfully. Vehicle: 2017 NISSAN ALTIMA
+Test Completed. Vehicle Name: 2017 NISSAN ALTIMA
