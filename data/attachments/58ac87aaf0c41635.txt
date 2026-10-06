@@ -1,0 +1,22 @@
+[Attempt 1/3] Starting REG Decode flow with REG: BV16OUM
+Submitting REG "BV16OUM" and waiting for preview page redirect...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "BV16OUM" -> "OV68PLU"
+[Attempt 2/3] Starting REG Decode flow with REG: OV68PLU
+Submitting REG "OV68PLU" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2018
+Make
+AUDI
+Model
+Q7 S LINE 45 TDI QUATTRO AUTO
+Colour
+Black
+Fuel type
+Diesel
+Engine displacement
+2.967 cc
+✅ REG "OV68PLU" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
