@@ -1,0 +1,23 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: KMHLW4DK7RU020455
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "KMHLW4DK7RU020455" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2024 HYUNDAI ELANTRA N
+
+VIN: KMHLW4DK7RU020455
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+FWD
+BODY TYPE
+4 Door SEDAN
+MANUFACTURER
+Hyundai
+COUNTRY
+Korea (South)
+✅ VIN "KMHLW4DK7RU020455" decoded successfully. Vehicle: 2024 HYUNDAI ELANTRA N
+Test Completed. Vehicle Name: 2024 HYUNDAI ELANTRA N

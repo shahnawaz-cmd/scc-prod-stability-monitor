@@ -1,0 +1,30 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: SALCR2RX0JH768880
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "SALCR2RX0JH768880" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: SALCR2RX0JH768880
+[Attempt 2/3] Starting VIN Decode flow for US...
+Submitting VIN "SALCR2RX0JH768880" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2018 LAND ROVER DISCOVERY SPORT
+
+VIN: SALCR2RX0JH768880
+
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+HSE
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+Jaguar Land Rover Limited
+COUNTRY
+United Kingdom
+✅ VIN "SALCR2RX0JH768880" decoded successfully. Vehicle: 2018 LAND ROVER DISCOVERY SPORT
+Test Completed. Vehicle Name: 2018 LAND ROVER DISCOVERY SPORT
