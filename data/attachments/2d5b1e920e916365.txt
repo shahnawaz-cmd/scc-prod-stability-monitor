@@ -1,0 +1,30 @@
+[Attempt 1/3] Starting REG Decode flow with REG: WF66WUJ
+🛡️ [Smart Wait] Cookie/Popup banner detected ("button[aria-label*="close" i]"). Dismissing...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
+Submitting REG "WF66WUJ" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "WF66WUJ" -> "YL56YUX"
+[Attempt 2/3] Starting REG Decode flow with REG: YL56YUX
+Submitting REG "YL56YUX" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "YL56YUX" -> "FR11YGU"
+[Attempt 3/3] Starting REG Decode flow with REG: FR11YGU
+Submitting REG "FR11YGU" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2011
+Make
+SMART
+Model
+FORTWO PULSE CDI AUTO PASSION
+Colour
+Black
+Fuel type
+Diesel
+Engine displacement
+799 cc
+✅ REG "FR11YGU" decoded successfully. Vehicle: Vehicle Specifications
+Starting Exit Intent Trigger flow...
+✅ Exit Intent Banner triggered successfully
+URL after applying discount: https://smartcarcheck.uk/members/preview?type=vhr&utm_details=&traffic_source=Direct--null&regNo=FR11YGU&wpPage=homepage&offer=preview10
+✅ Discount applied! offer=preview10 is in the URL.

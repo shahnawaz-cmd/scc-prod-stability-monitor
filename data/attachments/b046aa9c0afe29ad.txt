@@ -1,0 +1,18 @@
+[Attempt 1/3] Starting REG Decode flow with REG: YE08JHJ
+Submitting REG "YE08JHJ" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2008
+Make
+FIAT
+Model
+500 LOUNGE RHD
+Colour
+White
+Fuel type
+Petrol
+Engine displacement
+1.242 cc
+✅ REG "YE08JHJ" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications

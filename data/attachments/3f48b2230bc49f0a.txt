@@ -1,0 +1,37 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: WBAPK5C58BA811231
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "WBAPK5C58BA811231" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: WBAPK5C58BA811231
+[Attempt 2/3] Starting VIN Decode flow for US...
+Submitting VIN "WBAPK5C58BA811231" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+🛡️ [Auto-Handler] Dismissing cookie consent banner...
+✅ Using VIN: WBAPK5C58BA811231
+[Attempt 3/3] Starting VIN Decode flow for US...
+Submitting VIN "WBAPK5C58BA811231" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2011 BMW 328
+
+VIN: WBAPK5C58BA811231
+
+Records found
+Fuel Type
+Gas
+Drive Type
+AWD
+Series
+XI SULEV
+Body Type
+4 Door SEDAN
+Manufacturer
+BMW
+Country
+Germany
+✅ VIN "WBAPK5C58BA811231" decoded successfully. Vehicle: 2011 BMW 328
+Test Completed. Vehicle Name: 2011 BMW 328
