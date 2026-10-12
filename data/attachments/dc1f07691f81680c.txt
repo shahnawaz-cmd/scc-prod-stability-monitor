@@ -1,4 +1,4 @@
-⚠️ Spec capture failed for VIN "00000000000BC2939": page.waitForURL: Timeout 10000ms exceeded.
+⚠️ Attempt 1 spec extraction failed for REG "WF66WUJ": page.waitForURL: Timeout 10000ms exceeded.
 =========================== logs ===========================
 waiting for navigation until "load"
 ============================================================
