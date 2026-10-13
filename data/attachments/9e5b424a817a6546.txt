@@ -3,29 +3,25 @@
 🛡️ [Auto-Handler] Dismissing cookie consent banner...
 ✅ [Smart Wait] Cookie/Popup banner dismissed successfully.
 Submitting REG "WF66WUJ" and waiting for preview page redirect...
-🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "WF66WUJ" -> "MA08YWN"
-[Attempt 2/3] Starting REG Decode flow with REG: MA08YWN
-Submitting REG "MA08YWN" and waiting for preview page redirect...
+🔄 Re-opening Base URL ( https://smartcarcheck.uk/) and switching plate: "WF66WUJ" -> "RA65CWV"
+[Attempt 2/3] Starting REG Decode flow with REG: RA65CWV
+Submitting REG "RA65CWV" and waiting for preview page redirect...
 Section Data:
  Vehicle Specifications
 Year
-2008
+2015
 Make
-DODGE (USA)
+HONDA
 Model
-CALIBER SXT SPORT A
+CR-V EX I-VTEC AUTO
 Colour
-Silver
+Black
 Fuel type
 Petrol
-Engine displacement
-1998 cc
-Body Type
-Hatchback
 Vehicle First Registered Date
-25-03-2008
-✅ REG "MA08YWN" decoded successfully. Vehicle: Vehicle Specifications
+N/A
+✅ REG "RA65CWV" decoded successfully. Vehicle: Vehicle Specifications
 Starting Exit Intent Trigger flow...
 ✅ Exit Intent Banner triggered successfully
-URL after applying discount: https://smartcarcheck.uk/members/preview?type=vhr&utm_details=&traffic_source=Direct--null&regNo=MA08YWN&wpPage=homepage&offer=preview10
+URL after applying discount: https://smartcarcheck.uk/members/preview?type=vhr&utm_details=&traffic_source=Direct--null&regNo=RA65CWV&wpPage=homepage&offer=preview10
 ✅ Discount applied! offer=preview10 is in the URL.
