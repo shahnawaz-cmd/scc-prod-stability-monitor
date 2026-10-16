@@ -1,25 +1,25 @@
 ::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
-✅ Fetched VIN from Mongo: KMHL54JJ8MA023583
+✅ Fetched VIN from Mongo: 5NPE34AF9HH547788
 [Attempt 1/3] Starting VIN Decode flow for US...
-Submitting VIN "KMHL54JJ8MA023583" and waiting for preview page redirect...
+Submitting VIN "5NPE34AF9HH547788" and waiting for preview page redirect...
 ✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
 Section Data:
- 2021 HYUNDAI SONATA
+ 2017 HYUNDAI SONATA
 
-VIN: KMHL54JJ8MA023583
+VIN: 5NPE34AF9HH547788
 
 Records found
 FUEL TYPE
-Electric and Gas Hybrid
+Gas
 DRIVE TYPE
 FWD
 SERIES
-HYBRID
+SPORT
 BODY TYPE
 4 Door SEDAN
 MANUFACTURER
 Hyundai
 COUNTRY
-Korea (South)
-✅ VIN "KMHL54JJ8MA023583" decoded successfully. Vehicle: 2021 HYUNDAI SONATA
-Test Completed. Vehicle Name: 2021 HYUNDAI SONATA
+United States
+✅ VIN "5NPE34AF9HH547788" decoded successfully. Vehicle: 2017 HYUNDAI SONATA
+Test Completed. Vehicle Name: 2017 HYUNDAI SONATA
