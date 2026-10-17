@@ -1,0 +1,23 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: MLHPC5656T5901187
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "MLHPC5656T5901187" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2026 HONDA CMX500
+
+VIN: MLHPC5656T5901187
+
+Records found
+FUEL TYPE
+Gas
+SERIES
+A
+BODY TYPE
+CRUISER
+MANUFACTURER
+Honda
+COUNTRY
+Thailand
+✅ VIN "MLHPC5656T5901187" decoded successfully. Vehicle: 2026 HONDA CMX500
+Test Completed. Vehicle Name: 2026 HONDA CMX500
