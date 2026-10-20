@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "WA1EAAFY7P2039408": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

@@ -1,0 +1,23 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: JM1NC25F060109251
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "JM1NC25F060109251" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2006 MAZDA MX 5 MIATA
+
+VIN: JM1NC25F060109251
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+RWD
+BODY TYPE
+2 Door CONVERTIBLE
+MANUFACTURER
+Ford
+COUNTRY
+Japan
+✅ VIN "JM1NC25F060109251" decoded successfully. Vehicle: 2006 MAZDA MX 5 MIATA
+Test Completed. Vehicle Name: 2006 MAZDA MX 5 MIATA

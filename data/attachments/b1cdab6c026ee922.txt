@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 1GKKVPED0CJ418785
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "1GKKVPED0CJ418785" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2012 GMC ACADIA
+
+VIN: 1GKKVPED0CJ418785
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+SLE
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+General Motors
+COUNTRY
+United States
+✅ VIN "1GKKVPED0CJ418785" decoded successfully. Vehicle: 2012 GMC ACADIA
+Test Completed. Vehicle Name: 2012 GMC ACADIA

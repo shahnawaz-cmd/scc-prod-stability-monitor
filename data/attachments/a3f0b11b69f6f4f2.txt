@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "KM8J2CA4XKU062658": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
