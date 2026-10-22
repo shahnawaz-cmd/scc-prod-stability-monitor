@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "JA32U2FU6FU018506": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================

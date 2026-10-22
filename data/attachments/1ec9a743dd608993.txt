@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 5TDKBRCHXPS566392
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "5TDKBRCHXPS566392" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2023 TOYOTA HIGHLANDER
+
+VIN: 5TDKBRCHXPS566392
+
+Records found
+FUEL TYPE
+Electric and Gas Hybrid
+DRIVE TYPE
+AWD
+SERIES
+HYBRID XLE
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+Toyota
+COUNTRY
+United States
+✅ VIN "5TDKBRCHXPS566392" decoded successfully. Vehicle: 2023 TOYOTA HIGHLANDER
+Test Completed. Vehicle Name: 2023 TOYOTA HIGHLANDER
