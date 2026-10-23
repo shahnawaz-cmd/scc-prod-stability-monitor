@@ -1,0 +1,18 @@
+[Attempt 1/3] Starting REG Decode flow with REG: LL20YXZ
+Submitting REG "LL20YXZ" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2020
+Make
+FORD
+Model
+KUGA ST-LINE FIRST ED E-BLUE A
+Colour
+Blue
+Fuel type
+Diesel
+Engine displacement
+1.499 cc
+✅ REG "LL20YXZ" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
