@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "2HKRM3H33CH502097": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================

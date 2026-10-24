@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "JTKKUPB43E1045269": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
