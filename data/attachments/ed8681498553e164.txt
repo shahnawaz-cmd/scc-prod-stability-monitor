@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: WDDUG7JB3GA210642
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "WDDUG7JB3GA210642" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2016 MERCEDES BENZ S Class
+
+VIN: WDDUG7JB3GA210642
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+63 AMG
+BODY TYPE
+4 Door SEDAN
+MANUFACTURER
+Mercedes-Benz USA LLC
+COUNTRY
+Germany
+✅ VIN "WDDUG7JB3GA210642" decoded successfully. Vehicle: 2016 MERCEDES BENZ S Class
+Test Completed. Vehicle Name: 2016 MERCEDES BENZ S Class
