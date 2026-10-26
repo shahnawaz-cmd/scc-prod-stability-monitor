@@ -1,0 +1,26 @@
+[Attempt 1/3] Starting REG Decode flow with REG: LC66RXY
+Submitting REG "LC66RXY" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2016
+Make
+BENTLEY
+Model
+CONTINENTAL GT S V8 MDS AUTO
+Colour
+Black
+Number of cylinders
+8
+Fuel type
+Petrol
+Engine displacement
+3.993 cc
+Body Type
+Convertible
+Gears
+8 speed automatic
+Vehicle First Registered Date
+November 2016
+✅ REG "LC66RXY" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
