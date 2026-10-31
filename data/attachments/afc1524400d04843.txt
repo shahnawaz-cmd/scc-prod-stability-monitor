@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 4S4GUHU66T3765678
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "4S4GUHU66T3765678" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2026 SUBARU CROSSTREK
+
+VIN: 4S4GUHU66T3765678
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+WILDERNESS
+BODY TYPE
+4 Door SPORT UTILITY VEHICLE Sport Utility
+MANUFACTURER
+Subaru
+COUNTRY
+United States
+✅ VIN "4S4GUHU66T3765678" decoded successfully. Vehicle: 2026 SUBARU CROSSTREK
+Test Completed. Vehicle Name: 2026 SUBARU CROSSTREK

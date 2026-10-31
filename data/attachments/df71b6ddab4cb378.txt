@@ -1,0 +1,12 @@
+[Attempt 1/3] Starting REG Decode flow with REG: SD21ZWL
+Submitting REG "SD21ZWL" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2021
+Make
+JEEP
+Model
+RENEGADE NIGHT EAGLE
+✅ REG "SD21ZWL" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
