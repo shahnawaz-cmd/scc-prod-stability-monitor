@@ -1,0 +1,22 @@
+[Attempt 1/3] Starting REG Decode flow with REG: GU09ZDN
+Submitting REG "GU09ZDN" and waiting for preview page redirect...
+Section Data:
+ Vehicle Specifications
+Year
+2009
+Make
+HONDA
+Model
+JAZZ SE CVT
+Colour
+Blue
+Fuel type
+Petrol
+Engine displacement
+1339 cc
+Body Type
+Hatchback
+Vehicle First Registered Date
+12-05-2009
+✅ REG "GU09ZDN" decoded successfully. Vehicle: Vehicle Specifications
+Test Completed. Vehicle Name: Vehicle Specifications
