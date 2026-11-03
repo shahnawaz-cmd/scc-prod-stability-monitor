@@ -1,0 +1,25 @@
+::add-mask::mongodb://scraping_user:scraping_password@144.126.129.72:27014/?authSource=admin&readPreference=primary&appname=ScrapingMongo&ssl=false
+✅ Fetched VIN from Mongo: 5NTJDDAF9PH049330
+[Attempt 1/3] Starting VIN Decode flow for US...
+Submitting VIN "5NTJDDAF9PH049330" and waiting for preview page redirect...
+✅ [Self-Healing Click] Located button "Run My Car Check Now" using strategy #1
+Section Data:
+ 2023 HYUNDAI SANTA CRUZ
+
+VIN: 5NTJDDAF9PH049330
+
+Records found
+FUEL TYPE
+Gas
+DRIVE TYPE
+AWD
+SERIES
+SEL PREMIUM
+BODY TYPE
+4 Door SPORT UTILITY TRUCK Crew Cab
+MANUFACTURER
+Hyundai
+COUNTRY
+United States
+✅ VIN "5NTJDDAF9PH049330" decoded successfully. Vehicle: 2023 HYUNDAI SANTA CRUZ
+Test Completed. Vehicle Name: 2023 HYUNDAI SANTA CRUZ
