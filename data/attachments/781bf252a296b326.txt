@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "19XFL2H83TE038177": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
