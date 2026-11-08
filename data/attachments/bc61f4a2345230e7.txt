@@ -1,5 +1,0 @@
-⚠️ [Condition Triggered: TIMEOUT] VIN "B382000289"
-⚠️ Spec capture failed for VIN "B382000289": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================
