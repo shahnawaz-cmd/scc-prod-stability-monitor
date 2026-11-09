@@ -1,4 +1,0 @@
-⚠️ Spec capture failed for VIN "JHLRE48548C021222": page.waitForURL: Timeout 10000ms exceeded.
-=========================== logs ===========================
-waiting for navigation until "load"
-============================================================

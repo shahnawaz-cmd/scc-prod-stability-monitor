@@ -1,0 +1,4 @@
+⚠️ Spec capture failed for VIN "5UXKU2C31H0U29396": page.waitForURL: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
